@@ -1,6 +1,7 @@
 {
     "C_Cpp.errorSquiggles": "disabled",
     "files.associations": {
-        "stc32g.h": "c"
+        "main.h": "c",
+        "stdio.h": "c"
     }
 }
