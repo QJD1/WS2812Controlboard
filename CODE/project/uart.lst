@@ -1,0 +1,127 @@
+C251 COMPILER V5.60.0,  uart                                                               24/07/23  21:00:25  PAGE 1   
+
+
+C251 COMPILER V5.60.0, COMPILATION OF MODULE uart
+OBJECT MODULE PLACED IN .\uart.obj
+COMPILER INVOKED BY: D:\keil\C251\BIN\C251.EXE ..\src\uart.c XSMALL INTR2 BROWSE INCDIR(..\inc) DEBUG PRINT(.\uart.lst) 
+                    -TABS(2) OBJECT(.\uart.obj) 
+
+stmt  level    source
+
+    1          #include "main.h"
+    2          
+    3          bit B_TX1_Busy; //·¢ËÍÃ¦±êÖ¾
+    4          
+    5          //========================================================================
+    6          // º¯Êý: void UART1_config(u8 brt)
+    7          // ÃèÊö: UART1³õÊ¼»¯º¯Êý¡£
+    8          // ²ÎÊý: brt: Ñ¡Ôñ²¨ÌØÂÊ, 2: Ê¹ÓÃTimer2×ö²¨ÌØÂÊ, ÆäËüÖµ: Ê¹ÓÃTimer1×ö²¨ÌØÂÊ.
+    9          // ·µ»Ø: none.
+   10          // °æ±¾: VER1.0
+   11          // ÈÕÆÚ: 2014-11-28
+   12          // ±¸×¢: 
+   13          //========================================================================
+   14          void UART1_config()
+   15          {
+   16   1          S1BRT = 1;  //S1 BRT Use Timer2;
+   17   1          T2R = 0;    //Timer stop
+   18   1          T2_CT = 0;  //Timer2 set As Timer
+   19   1          T2x12 = 1;  //Timer2 set as 1T mode
+   20   1          T2H = (u8)(Baudrate1 / 256);
+   21   1          T2L = (u8)(Baudrate1 % 256);
+   22   1          ET2 = 0;    //½ûÖ¹ÖÐ¶Ï
+   23   1          T2R = 1;    //Timer run enable
+   24   1      
+   25   1          SCON = (SCON & 0x3f) | 0x40;    //UART1Ä£Ê½, 0x00: Í¬²½ÒÆÎ»Êä³ö, 0x40: 8Î»Êý¾Ý,¿É±ä²¨ÌØÂÊ, 0x80: 9Î»Ê
+             -ý¾Ý,¹Ì¶¨²¨ÌØÂÊ, 0xc0: 9Î»Êý¾Ý,¿É±ä²¨ÌØÂÊ
+   26   1      //  PS  = 1;    //¸ßÓÅÏÈ¼¶ÖÐ¶Ï
+   27   1          ES  = 1;    //ÔÊÐíÖÐ¶Ï
+   28   1          REN = 1;    //ÔÊÐí½ÓÊÕ
+   29   1          P_SW1 &= 0x3f;
+   30   1      //  P_SW1 |= 0x00;      //UART1 switch to, 0x00: P3.0 P3.1, 0x40: P3.6 P3.7, 0x80: P1.6 P1.7, 0xC0: P4.3 
+             -P4.4
+   31   1      
+   32   1          B_TX1_Busy = 0;
+   33   1      }
+   34          
+   35          
+   36          //========================================================================
+   37          // º¯Êý: void UART1_int (void) interrupt UART1_VECTOR
+   38          // ÃèÊö: UART1ÖÐ¶Ïº¯Êý¡£
+   39          // ²ÎÊý: nine.
+   40          // ·µ»Ø: none.
+   41          // °æ±¾: VER1.0
+   42          // ÈÕÆÚ: 2014-11-28
+   43          // ±¸×¢: 
+   44          //========================================================================
+   45          void UART1_int (void) interrupt 4
+   46          {
+   47   1          if(RI)
+   48   1          {
+   49   2              RI = 0;
+   50   2              //RX1_Buffer[RX1_Cnt] = SBUF;
+   51   2          }
+   52   1      
+   53   1          if(TI)
+   54   1          {
+   55   2              TI = 0;
+   56   2              B_TX1_Busy = 0;
+C251 COMPILER V5.60.0,  uart                                                               24/07/23  21:00:25  PAGE 2   
+
+   57   2          }
+   58   1      }
+   59          
+   60          void UART1_Send (u8 bat)
+   61          {
+   62   1          SBUF = bat;
+   63   1          B_TX1_Busy = 1;
+   64   1          while(B_TX1_Busy == 1);
+   65   1      }
+   66          
+   67          //========================================================================
+   68          // º¯Êý: void PrintString1(u8 *puts)
+   69          // ÃèÊö: ´®¿Ú1·¢ËÍ×Ö·û´®º¯Êý¡£
+   70          // ²ÎÊý: puts:  ×Ö·û´®Ö¸Õë.
+   71          // ·µ»Ø: none.
+   72          // °æ±¾: VER1.0
+   73          // ÈÕÆÚ: 2014-11-28
+   74          // ±¸×¢: 
+   75          //========================================================================
+   76          void PrintString1(u8 *puts)
+   77          {
+   78   1          for (; *puts != 0;  puts++)     //Óöµ½Í£Ö¹·û0½áÊø
+   79   1          {
+   80   2              UART1_Send(*puts);
+   81   2          }
+   82   1      }
+   83          
+   84          //ÖØÐ´putcharº¯Êý
+   85          char putchar(char c)
+   86          {
+   87   1        UART1_Send(c);
+   88   1        return c;
+   89   1      }
+
+
+Module Information          Static   Overlayable
+------------------------------------------------
+  code size            =       111     ------
+  ecode size           =    ------     ------
+  data size            =    ------     ------
+  idata size           =    ------     ------
+  pdata size           =    ------     ------
+  xdata size           =    ------     ------
+  xdata-const size     =    ------     ------
+  edata size           =    ------     ------
+  bit size             =         1     ------
+  ebit size            =    ------     ------
+  bitaddressable size  =    ------     ------
+  ebitaddressable size =    ------     ------
+  far data size        =    ------     ------
+  huge data size       =    ------     ------
+  const size           =    ------     ------
+  hconst size          =    ------     ------
+End of Module Information.
+
+
+C251 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,8 +1,8 @@
-L251 LINKER/LOCATER V4.66.93.0                                                          07/24/2023  20:15:48  PAGE 1
+L251 LINKER/LOCATER V4.66.93.0                                                          07/24/2023  21:00:25  PAGE 1
 
 
 L251 LINKER/LOCATER V4.66.93.0, INVOKED BY:
-D:\KEIL\C251\BIN\L251.EXE .\main1.obj TO sample CASE CLASSES (EDATA (0X0-0XFFF), HDATA (0X0-0XFFF))
+D:\KEIL\C251\BIN\L251.EXE .\main.obj, .\uart.obj TO sample CASE CLASSES (EDATA (0X0-0XFFF), HDATA (0X0-0XFFF))
 
 
 CPU MODE:     251 SOURCE MODE
@@ -11,92 +11,118 @@ MEMORY MODEL: XSMALL
 
 
 INPUT MODULES INCLUDED:
-  .\main1.obj (main1)
+  .\main.obj (main)
+         COMMENT TYPE 0: C251 V5.60.0
+  .\uart.obj (uart)
          COMMENT TYPE 0: C251 V5.60.0
   D:\KEIL\C251\LIB\C2SXS.LIB (?C_START)
          COMMENT TYPE 0: A251 V4.69.6.0
+  D:\KEIL\C251\LIB\C2SXS.LIB (PRINTF)
+         COMMENT TYPE 0: A251 V4.69.6.0
+  D:\KEIL\C251\LIB\C2SXS.LIB (?C?PRNFMT)
+         COMMENT TYPE 0: A251 V4.69.6.0
 
 
-ACTIVE MEMORY CLASSES OF MODULE:  sample (main1)
+ACTIVE MEMORY CLASSES OF MODULE:  sample (main)
 
 BASE        START       END         USED      MEMORY CLASS
 ==========================================================
-000000H     000000H     000FFFH     000182H   EDATA
+000000H     000000H     000FFFH     000128H   EDATA
 000000H     000000H     000FFFH               HDATA
-000000H     FF0000H     FFFFFFH     000027H   HCONST
-FF0000H     FF0000H     FFFFFFH     00011BH   CODE
+000000H     FF0000H     FFFFFFH     000008H   HCONST
+FF0000H     FF0000H     FFFFFFH     0003D7H   CODE
 000020H.0   000020H.0   00002FH.7   000000H.1 BIT
+FF0000H     FF0000H     FFFFFFH     000004H   CONST
 000000H     000000H     00007FH     000008H   DATA
 
 
-MEMORY MAP OF MODULE:  sample (main1)
+MEMORY MAP OF MODULE:  sample (main)
 
 
 START     STOP      LENGTH    ALIGN  RELOC    MEMORY CLASS   SEGMENT NAME
 =========================================================================
 000000H   000007H   000008H   ---    AT..     DATA           "REG BANK 0"
 000008H.0 00001FH.7 000018H.0 ---    ---      **GAP**
-000020H.0 000020H.0 000000H.1 BIT    UNIT     BIT            ?BI?MAIN1
+000020H.0 000020H.0 000000H.1 BIT    UNIT     BIT            ?BI?UART
 000020H.1 000020H   000000H.7 ---    ---      **GAP**
-000021H   0000A2H   000082H   BYTE   UNIT     EDATA          ?ED?MAIN1
-0000A3H   0001A2H   000100H   BYTE   UNIT     EDATA          ?STACK
-0001A3H   FEFFFFH   FEFE5DH   ---    ---      **GAP**
+000021H   000048H   000028H   BYTE   UNIT     EDATA          _EDATA_GROUP_
+000049H   000148H   000100H   BYTE   UNIT     EDATA          ?STACK
+000149H   FEFFFFH   FEFEB7H   ---    ---      **GAP**
 FF0000H   FF0002H   000003H   ---    OFFS..   CODE           ?CO?start251?4
-FF0003H   FF0015H   000013H   BYTE   UNIT     CODE           ?C_C51STARTUP
-FF0016H   FF0018H   000003H   BYTE   UNIT     CODE           ?C_C51STARTUP?3
-FF0019H   FF0022H   00000AH   ---    ---      **GAP**
+FF0003H   FF0018H   000016H   BYTE   INSEG    CODE           ?PR?PRINTSTRING1?UART
+FF0019H   FF001CH   000004H   BYTE   UNIT     CONST          ?CO?PRINTF
+FF001DH   FF0022H   000006H   ---    ---      **GAP**
 FF0023H   FF0025H   000003H   ---    OFFS..   CODE           ?PR?IV?4
-FF0026H   FF006BH   000046H   BYTE   INSEG    CODE           ?PR?MAIN?MAIN1
-FF006CH   FF00ACH   000041H   BYTE   INSEG    CODE           ?PR?SYS_INIT?MAIN1
-FF00ADH   FF00DFH   000033H   BYTE   INSEG    CODE           ?PR?UART1_CONFIG?MAIN1
-FF00E0H   FF0110H   000031H   BYTE   INSEG    CODE           ?PR?UART1_INT?MAIN1
-FF0111H   FF0124H   000014H   BYTE   INSEG    CODE           ?PR?PRINTSTRING1?MAIN1
-FF0125H   FF014BH   000027H   BYTE   UNIT     HCONST         ?HC?MAIN1
+FF0026H   FF0325H   000300H   BYTE   UNIT     CODE           ?C?LIB_CODE
+FF0326H   FF0364H   00003FH   BYTE   INSEG    CODE           ?PR?SYS_INIT?MAIN
+FF0365H   FF038EH   00002AH   BYTE   INSEG    CODE           ?PR?UART1_CONFIG?UART
+FF038FH   FF03A1H   000013H   BYTE   UNIT     CODE           ?C_C51STARTUP
+FF03A2H   FF03A4H   000003H   BYTE   UNIT     CODE           ?C_C51STARTUP?3
+FF03A5H   FF03B5H   000011H   BYTE   INSEG    CODE           ?PR?UART1_INT?UART
+FF03B6H   FF03C5H   000010H   BYTE   INSEG    CODE           ?PR?MAIN?MAIN
+FF03C6H   FF03D4H   00000FH   BYTE   INSEG    CODE           ?PR?UART1_SEND?UART
+FF03D5H   FF03E0H   00000CH   BYTE   INSEG    CODE           ?PR?PUTCHAR?UART
+FF03E1H   FF03E8H   000008H   BYTE   UNIT     HCONST         ?HC?MAIN
 
 
 
-OVERLAY MAP OF MODULE:   sample (main1)
+OVERLAY MAP OF MODULE:   sample (main)
+L251 LINKER/LOCATER V4.66.93.0                                                        07/24/2023  21:00:25  PAGE 2
 
 
-FUNCTION/MODULE              BIT_GROUP   DATA_GROUP 
---> CALLED FUNCTION/MODULE  START  STOP  START  STOP
-====================================================
-UART1_int/main1             ----- -----  ----- -----
+
+
+FUNCTION/MODULE             EDATA_GROUP
+--> CALLED FUNCTION/MODULE  START  STOP
+=======================================
+UART1_int/uart              ----- -----
 
 *** NEW ROOT **************
 
-?C_C51STARTUP               ----- -----  ----- -----
-
-L251 LINKER/LOCATER V4.66.93.0                                                        07/24/2023  20:15:48  PAGE 2
-
+?C_C51STARTUP               ----- -----
 
 *** NEW ROOT **************
 
-?C_C51STARTUP?3             ----- -----  ----- -----
-  +--> main/main1
+?C_C51STARTUP?3             ----- -----
+  +--> main/main
 
-main/main1                  ----- -----  ----- -----
-  +--> SYS_Init/main1
-  +--> PrintString1/main1
+main/main                   ----- -----
+  +--> SYS_Init/main
+  +--> PRINTF/PRINTF
 
-SYS_Init/main1              ----- -----  ----- -----
-  +--> UART1_config/main1
+SYS_Init/main               ----- -----
+  +--> UART1_config/uart
 
-UART1_config/main1          ----- -----  ----- -----
+UART1_config/uart           ----- -----
 
-PrintString1/main1          ----- -----  ----- -----
+PRINTF/PRINTF               0021H 0048H
+  +--> OUT/PRINTF
+
+OUT/PRINTF                  ----- -----
+  +--> PUTCH/PRINTF
+
+PUTCH/PRINTF                ----- -----
+  +--> putchar/uart
+  +--> OUT/PRINTF
+
+putchar/uart                ----- -----
+  +--> UART1_Send/uart
+
+UART1_Send/uart             ----- -----
 
 
 
-PUBLIC SYMBOLS OF MODULE:  sample (main1)
+PUBLIC SYMBOLS OF MODULE:  sample (main)
 
 
       VALUE       CLASS    TYPE      PUBLIC SYMBOL NAME
       =================================================
       000000FFH   NUMBER   ---       ?C?CODESEG
+      00FF007FH   CODE     ---       ?C?PRNFMT
       00FF0000H   CODE     ---       ?C?STARTUP
       00000001H   NUMBER   ---       ?C?XDATASEG
       00FF0000H   CODE     ---       ?C_STARTUP
+      00000049H   EDATA    ---       ?printf?BYTE
 *SFR* 000000BCH   DATA     BYTE      ADC_CONTR
 *SFR* 000000DEH   DATA     BYTE      ADCCFG
 *SFR* 000000EFH   DATA     BYTE      AUXINTIF
@@ -109,6 +135,9 @@ PUBLIC SYMBOLS OF MODULE:  sample (main1)
 *SFR* 000000E7H   DATA     BYTE      CMPCR2
 *SFR* 000000A8H.7 DATA     BIT       EA
 *SFR* 000000BAH.7 DATA     BIT       EAXFR
+L251 LINKER/LOCATER V4.66.93.0                                                        07/24/2023  21:00:25  PAGE 3
+
+
 *SFR* 000000A8H.4 DATA     BIT       ES
 *SFR* 000000AFH.2 DATA     BIT       ET2
 *SFR* 000000C7H   DATA     BYTE      IAP_CONTR
@@ -123,7 +152,7 @@ PUBLIC SYMBOLS OF MODULE:  sample (main1)
 *SFR* 000000B7H   DATA     BYTE      IPH
 *SFR* 0000009DH   DATA     BYTE      IRCBAND
 *SFR* 000000F9H   DATA     BYTE      LINICR
-      00FF0026H   CODE     ---       main
+      00FF03B6H   CODE     ---       main
 *SFR* 00000080H   DATA     BYTE      P0
 *SFR* 00000094H   DATA     BYTE      P0M0
 *SFR* 00000093H   DATA     BYTE      P0M1
@@ -135,9 +164,6 @@ PUBLIC SYMBOLS OF MODULE:  sample (main1)
 *SFR* 00000095H   DATA     BYTE      P2M1
 *SFR* 000000B0H   DATA     BYTE      P3
 *SFR* 000000B2H   DATA     BYTE      P3M0
-L251 LINKER/LOCATER V4.66.93.0                                                        07/24/2023  20:15:48  PAGE 3
-
-
 *SFR* 000000B1H   DATA     BYTE      P3M1
 *SFR* 000000C0H   DATA     BYTE      P4
 *SFR* 000000B4H   DATA     BYTE      P4M0
@@ -155,13 +181,13 @@ PUBLIC SYMBOLS OF MODULE:  sample (main1)
 *SFR* 000000BAH   DATA     BYTE      P_SW2
 *SFR* 000000BBH   DATA     BYTE      P_SW3
 *SFR* 00000087H   DATA     BYTE      PCON
-      00FF0111H   CODE     ---       PrintString1
+      00FF0026H   CODE     NEAR LAB  printf
+      00FF0003H   CODE     ---       PrintString1
 *SFR* 000000D0H   DATA     BYTE      PSW
+      00FF03D5H   CODE     ---       putchar
 *SFR* 00000098H.4 DATA     BIT       REN
 *SFR* 00000098H.0 DATA     BIT       RI
 *SFR* 000000FFH   DATA     BYTE      RSTCFG
-      00000021H   EDATA    ---       RX1_Buffer
-      000000A1H   EDATA    BYTE      RX1_Cnt
 *SFR* 0000008EH.0 DATA     BIT       S1BRT
 *SFR* 0000009AH   DATA     BYTE      S2CON
 *SFR* 000000ACH   DATA     BYTE      S3CON
@@ -170,49 +196,141 @@ PUBLIC SYMBOLS OF MODULE:  sample (main1)
 *SFR* 00000098H   DATA     BYTE      SCON
 *SFR* 000000CEH   DATA     BYTE      SPCTL
 *SFR* 000000CDH   DATA     BYTE      SPSTAT
-      00FF006CH   CODE     ---       SYS_Init
+      00FF0326H   CODE     ---       SYS_Init
 *SFR* 0000008EH.3 DATA     BIT       T2_CT
 *SFR* 000000D6H   DATA     BYTE      T2H
 *SFR* 000000D7H   DATA     BYTE      T2L
 *SFR* 0000008EH.4 DATA     BIT       T2R
 *SFR* 0000008EH.2 DATA     BIT       T2x12
 *SFR* 000000DDH   DATA     BYTE      T4T3M
+L251 LINKER/LOCATER V4.66.93.0                                                        07/24/2023  21:00:25  PAGE 4
+
+
 *SFR* 00000088H   DATA     BYTE      TCON
 *SFR* 00000098H.1 DATA     BIT       TI
 *SFR* 00000089H   DATA     BYTE      TMOD
-      000000A2H   EDATA    BYTE      TX1_Cnt
-      00FF00ADH   CODE     ---       UART1_config
-      00FF00E0H   CODE     ---       UART1_int
+      00FF0365H   CODE     ---       UART1_config
+      00FF03A5H   CODE     ---       UART1_int
+      00FF03C6H   CODE     ---       UART1_Send
 *SFR* 000000F4H   DATA     BYTE      USBCON
 *SFR* 000000C1H   DATA     BYTE      WDT_CONTR
 *SFR* 000000E9H   DATA     BYTE      WTST
 
 
 
-SYMBOL TABLE OF MODULE:  sample (main1)
+SYMBOL TABLE OF MODULE:  sample (main)
 
       VALUE       REP       CLASS    TYPE      SYMBOL NAME
       ====================================================
-      ---         MODULE    ---      ---       main1
-      00FF00E0H   PUBLIC    CODE     ---       UART1_int
-      00FF0026H   PUBLIC    CODE     ---       main
-      00FF0111H   PUBLIC    CODE     ---       PrintString1
-      00FF00ADH   PUBLIC    CODE     ---       UART1_config
-      00FF006CH   PUBLIC    CODE     ---       SYS_Init
-      00000020H.0 PUBLIC    BIT      BIT       B_TX1_Busy
-      00000021H   PUBLIC    EDATA    ---       RX1_Buffer
-      000000A1H   PUBLIC    EDATA    BYTE      RX1_Cnt
-      000000A2H   PUBLIC    EDATA    BYTE      TX1_Cnt
-L251 LINKER/LOCATER V4.66.93.0                                                        07/24/2023  20:15:48  PAGE 4
-
-
-      0000008EH.3 SFRSYM    DATA     BIT       T2_CT
+      ---         MODULE    ---      ---       main
+      00FF03B6H   PUBLIC    CODE     ---       main
+      00FF0326H   PUBLIC    CODE     ---       SYS_Init
       00000094H   SFRSYM    DATA     BYTE      P0M0
       000000D0H   SFRSYM    DATA     BYTE      PSW
       000000BAH.7 SFRSYM    DATA     BIT       EAXFR
       0000009DH   SFRSYM    DATA     BYTE      IRCBAND
       00000097H   SFRSYM    DATA     BYTE      AUXR2
       000000EAH   SFRSYM    DATA     BYTE      CKCON
+      000000EFH   SFRSYM    DATA     BYTE      AUXINTIF
+      000000FDH   SFRSYM    DATA     BYTE      S4CON
+      000000ACH   SFRSYM    DATA     BYTE      S3CON
+      0000009AH   SFRSYM    DATA     BYTE      S2CON
+      000000B7H   SFRSYM    DATA     BYTE      IPH
+      000000CDH   SFRSYM    DATA     BYTE      SPSTAT
+      000000DDH   SFRSYM    DATA     BYTE      T4T3M
+      000000C1H   SFRSYM    DATA     BYTE      WDT_CONTR
+      000000E9H   SFRSYM    DATA     BYTE      WTST
+      000000DFH   SFRSYM    DATA     BYTE      IP3
+      000000F4H   SFRSYM    DATA     BYTE      USBCON
+      000000B5H   SFRSYM    DATA     BYTE      IP2
+      000000FFH   SFRSYM    DATA     BYTE      RSTCFG
+      000000C7H   SFRSYM    DATA     BYTE      IAP_CONTR
+      000000F9H   SFRSYM    DATA     BYTE      LINICR
+      0000008EH   SFRSYM    DATA     BYTE      AUXR
+      000000AFH   SFRSYM    DATA     BYTE      IE2
+      00000088H   SFRSYM    DATA     BYTE      TCON
+      00000089H   SFRSYM    DATA     BYTE      TMOD
+      00000098H   SFRSYM    DATA     BYTE      SCON
+      000000F1H   SFRSYM    DATA     BYTE      CANICR
+      00000087H   SFRSYM    DATA     BYTE      PCON
+      000000BCH   SFRSYM    DATA     BYTE      ADC_CONTR
+      000000E7H   SFRSYM    DATA     BYTE      CMPCR2
+      000000E6H   SFRSYM    DATA     BYTE      CMPCR1
+      000000DEH   SFRSYM    DATA     BYTE      ADCCFG
+      000000B8H   SFRSYM    DATA     BYTE      IP
+      0000008FH   SFRSYM    DATA     BYTE      INTCLKO
+      000000EEH   SFRSYM    DATA     BYTE      IP3H
+      000000B6H   SFRSYM    DATA     BYTE      IP2H
+      000000A8H   SFRSYM    DATA     BYTE      IE
+      000000BBH   SFRSYM    DATA     BYTE      P_SW3
+      000000BAH   SFRSYM    DATA     BYTE      P_SW2
+      000000A2H   SFRSYM    DATA     BYTE      P_SW1
+      000000CEH   SFRSYM    DATA     BYTE      SPCTL
+      000000F8H   SFRSYM    DATA     BYTE      P7
+      000000A8H.7 SFRSYM    DATA     BIT       EA
+      000000E1H   SFRSYM    DATA     BYTE      P7M1
+      000000E8H   SFRSYM    DATA     BYTE      P6
+      000000C8H   SFRSYM    DATA     BYTE      P5
+L251 LINKER/LOCATER V4.66.93.0                                                        07/24/2023  21:00:25  PAGE 5
+
+
+      000000CBH   SFRSYM    DATA     BYTE      P6M1
+      000000E2H   SFRSYM    DATA     BYTE      P7M0
+      000000C0H   SFRSYM    DATA     BYTE      P4
+      000000C9H   SFRSYM    DATA     BYTE      P5M1
+      000000CCH   SFRSYM    DATA     BYTE      P6M0
+      000000B0H   SFRSYM    DATA     BYTE      P3
+      000000B3H   SFRSYM    DATA     BYTE      P4M1
+      000000CAH   SFRSYM    DATA     BYTE      P5M0
+      000000A0H   SFRSYM    DATA     BYTE      P2
+      000000B1H   SFRSYM    DATA     BYTE      P3M1
+      000000B4H   SFRSYM    DATA     BYTE      P4M0
+      00000090H   SFRSYM    DATA     BYTE      P1
+      00000095H   SFRSYM    DATA     BYTE      P2M1
+      000000B2H   SFRSYM    DATA     BYTE      P3M0
+      00000080H   SFRSYM    DATA     BYTE      P0
+      00000091H   SFRSYM    DATA     BYTE      P1M1
+      00000096H   SFRSYM    DATA     BYTE      P2M0
+      00000092H   SFRSYM    DATA     BYTE      P1M0
+      00000093H   SFRSYM    DATA     BYTE      P0M1
+
+      00FF03B6H   BLOCK     CODE     ---       LVL=0
+      00FF03B6H   LINE      CODE     ---       #6
+      00FF03B6H   LINE      CODE     ---       #8
+      00FF03B9H   LINE      CODE     ---       #9
+      00FF03B9H   LINE      CODE     ---       #11
+      00FF03C4H   LINE      CODE     ---       #12
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      00FF0326H   BLOCK     CODE     ---       LVL=0
+      00FF0326H   LINE      CODE     ---       #17
+      00FF0326H   LINE      CODE     ---       #19
+      00FF0329H   LINE      CODE     ---       #20
+      00FF032CH   LINE      CODE     ---       #21
+      00FF032FH   LINE      CODE     ---       #23
+      00FF0335H   LINE      CODE     ---       #24
+      00FF033BH   LINE      CODE     ---       #25
+      00FF0341H   LINE      CODE     ---       #26
+      00FF0347H   LINE      CODE     ---       #27
+      00FF034DH   LINE      CODE     ---       #28
+      00FF0353H   LINE      CODE     ---       #29
+      00FF0359H   LINE      CODE     ---       #30
+      00FF035FH   LINE      CODE     ---       #32
+      00FF0362H   LINE      CODE     ---       #34
+      00FF0364H   LINE      CODE     ---       #35
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      ---         MODULE    ---      ---       uart
+      00FF03A5H   PUBLIC    CODE     ---       UART1_int
+      00FF0003H   PUBLIC    CODE     ---       PrintString1
+      00FF0365H   PUBLIC    CODE     ---       UART1_config
+      00FF03C6H   PUBLIC    CODE     ---       UART1_Send
+      00FF03D5H   PUBLIC    CODE     ---       putchar
+      00000020H.0 PUBLIC    BIT      BIT       B_TX1_Busy
+      0000008EH.3 SFRSYM    DATA     BIT       T2_CT
+      000000D0H   SFRSYM    DATA     BYTE      PSW
+      0000009DH   SFRSYM    DATA     BYTE      IRCBAND
+      00000097H   SFRSYM    DATA     BYTE      AUXR2
       0000008EH.0 SFRSYM    DATA     BIT       S1BRT
       000000EFH   SFRSYM    DATA     BYTE      AUXINTIF
       000000FDH   SFRSYM    DATA     BYTE      S4CON
@@ -221,11 +339,13 @@ SYMBOL TABLE OF MODULE:  sample (main1)
       00000098H.4 SFRSYM    DATA     BIT       REN
       0000008EH.2 SFRSYM    DATA     BIT       T2x12
       000000B7H   SFRSYM    DATA     BYTE      IPH
+L251 LINKER/LOCATER V4.66.93.0                                                        07/24/2023  21:00:25  PAGE 6
+
+
       000000CDH   SFRSYM    DATA     BYTE      SPSTAT
       000000DDH   SFRSYM    DATA     BYTE      T4T3M
       0000008EH.4 SFRSYM    DATA     BIT       T2R
       000000C1H   SFRSYM    DATA     BYTE      WDT_CONTR
-      000000E9H   SFRSYM    DATA     BYTE      WTST
       000000D7H   SFRSYM    DATA     BYTE      T2L
       000000D6H   SFRSYM    DATA     BYTE      T2H
       000000DFH   SFRSYM    DATA     BYTE      IP3
@@ -260,115 +380,87 @@ SYMBOL TABLE OF MODULE:  sample (main1)
       000000A2H   SFRSYM    DATA     BYTE      P_SW1
       000000CEH   SFRSYM    DATA     BYTE      SPCTL
       000000F8H   SFRSYM    DATA     BYTE      P7
-      000000A8H.7 SFRSYM    DATA     BIT       EA
-      000000E1H   SFRSYM    DATA     BYTE      P7M1
       000000E8H   SFRSYM    DATA     BYTE      P6
       000000C8H   SFRSYM    DATA     BYTE      P5
-      000000CBH   SFRSYM    DATA     BYTE      P6M1
-      000000E2H   SFRSYM    DATA     BYTE      P7M0
       000000C0H   SFRSYM    DATA     BYTE      P4
-      000000C9H   SFRSYM    DATA     BYTE      P5M1
-      000000CCH   SFRSYM    DATA     BYTE      P6M0
       000000B0H   SFRSYM    DATA     BYTE      P3
-      000000B3H   SFRSYM    DATA     BYTE      P4M1
-L251 LINKER/LOCATER V4.66.93.0                                                        07/24/2023  20:15:48  PAGE 5
-
-
-      000000CAH   SFRSYM    DATA     BYTE      P5M0
       000000A0H   SFRSYM    DATA     BYTE      P2
-      000000B1H   SFRSYM    DATA     BYTE      P3M1
-      000000B4H   SFRSYM    DATA     BYTE      P4M0
       00000090H   SFRSYM    DATA     BYTE      P1
-      00000095H   SFRSYM    DATA     BYTE      P2M1
-      000000B2H   SFRSYM    DATA     BYTE      P3M0
       00000080H   SFRSYM    DATA     BYTE      P0
-      00000091H   SFRSYM    DATA     BYTE      P1M1
-      00000096H   SFRSYM    DATA     BYTE      P2M0
-      00000092H   SFRSYM    DATA     BYTE      P1M0
-      00000093H   SFRSYM    DATA     BYTE      P0M1
 
-      00FF0026H   BLOCK     CODE     ---       LVL=0
-      00FF0026H   LINE      CODE     ---       #56
-      00FF0026H   LINE      CODE     ---       #58
-      00FF0029H   LINE      CODE     ---       #62
-      00FF0033H   LINE      CODE     ---       #64
-      00FF0033H   LINE      CODE     ---       #66
-      00FF0040H   LINE      CODE     ---       #68
-      00FF004CH   LINE      CODE     ---       #69
-      00FF004EH   LINE      CODE     ---       #70
-      00FF005FH   LINE      CODE     ---       #71
-      00FF005FH   LINE      CODE     ---       #72
-      00FF006AH   LINE      CODE     ---       #73
+      00FF0365H   BLOCK     CODE     ---       LVL=0
+      00FF0365H   LINE      CODE     ---       #14
+      00FF0365H   LINE      CODE     ---       #16
+      00FF0368H   LINE      CODE     ---       #17
+      00FF036BH   LINE      CODE     ---       #18
+      00FF036EH   LINE      CODE     ---       #19
+      00FF0371H   LINE      CODE     ---       #20
+      00FF0374H   LINE      CODE     ---       #21
+      00FF0377H   LINE      CODE     ---       #22
+      00FF037AH   LINE      CODE     ---       #23
+      00FF037DH   LINE      CODE     ---       #25
+      00FF0385H   LINE      CODE     ---       #27
+      00FF0387H   LINE      CODE     ---       #28
+      00FF0389H   LINE      CODE     ---       #29
+      00FF038CH   LINE      CODE     ---       #32
+      00FF038EH   LINE      CODE     ---       #33
       ---         BLOCKEND  ---      ---       LVL=0
 
-      00FF006CH   BLOCK     CODE     ---       LVL=0
-      00FF006CH   LINE      CODE     ---       #77
-      00FF006CH   LINE      CODE     ---       #79
-      00FF006FH   LINE      CODE     ---       #80
-      00FF0072H   LINE      CODE     ---       #81
-      00FF0075H   LINE      CODE     ---       #83
-      00FF007BH   LINE      CODE     ---       #84
-      00FF0081H   LINE      CODE     ---       #85
-      00FF0087H   LINE      CODE     ---       #86
-      00FF008DH   LINE      CODE     ---       #87
-      00FF0093H   LINE      CODE     ---       #88
-      00FF0099H   LINE      CODE     ---       #89
-      00FF009FH   LINE      CODE     ---       #90
-      00FF00A5H   LINE      CODE     ---       #92
-      00FF00AAH   LINE      CODE     ---       #94
-      00FF00ACH   LINE      CODE     ---       #95
+      00FF03A5H   BLOCK     CODE     ---       LVL=0
+L251 LINKER/LOCATER V4.66.93.0                                                        07/24/2023  21:00:25  PAGE 7
+
+
+      00FF03A5H   LINE      CODE     ---       #45
+      00FF03A7H   LINE      CODE     ---       #47
+      00FF03AAH   LINE      CODE     ---       #49
+      00FF03ACH   LINE      CODE     ---       #51
+      00FF03ACH   LINE      CODE     ---       #53
+      00FF03AFH   LINE      CODE     ---       #55
+      00FF03B1H   LINE      CODE     ---       #56
+      00FF03B3H   LINE      CODE     ---       #57
       ---         BLOCKEND  ---      ---       LVL=0
 
-      00FF0111H   BLOCK     CODE     ---       LVL=0
-      REG=0       REGSYM    ---      ---       puts
-      00FF0111H   LINE      CODE     ---       #107
-      00FF0111H   LINE      CODE     ---       #109
-      00FF0113H   LINE      CODE     ---       #111
-      00FF0118H   LINE      CODE     ---       #112
-      00FF011AH   LINE      CODE     ---       #113
-      00FF011DH   LINE      CODE     ---       #114
-      00FF0124H   LINE      CODE     ---       #115
+      00FF03C6H   BLOCK     CODE     ---       LVL=0
+      R11         REGSYM    ---      BYTE      bat
+      00FF03C6H   LINE      CODE     ---       #60
+      00FF03C6H   LINE      CODE     ---       #62
+      00FF03C9H   LINE      CODE     ---       #63
+      00FF03CBH   LINE      CODE     ---       #64
+      00FF03D4H   LINE      CODE     ---       #65
       ---         BLOCKEND  ---      ---       LVL=0
 
-      00FF00ADH   BLOCK     CODE     ---       LVL=0
-      00FF00ADH   LINE      CODE     ---       #126
-      00FF00ADH   LINE      CODE     ---       #128
-      00FF00B0H   LINE      CODE     ---       #129
-      00FF00B3H   LINE      CODE     ---       #130
-      00FF00B6H   LINE      CODE     ---       #131
-      00FF00B9H   LINE      CODE     ---       #132
-      00FF00BCH   LINE      CODE     ---       #133
-      00FF00BFH   LINE      CODE     ---       #134
-L251 LINKER/LOCATER V4.66.93.0                                                        07/24/2023  20:15:48  PAGE 6
-
-
-      00FF00C2H   LINE      CODE     ---       #135
-      00FF00C5H   LINE      CODE     ---       #137
-      00FF00CDH   LINE      CODE     ---       #139
-      00FF00CFH   LINE      CODE     ---       #140
-      00FF00D1H   LINE      CODE     ---       #141
-      00FF00D4H   LINE      CODE     ---       #144
-      00FF00D6H   LINE      CODE     ---       #145
-      00FF00DBH   LINE      CODE     ---       #146
-      00FF00DFH   LINE      CODE     ---       #147
+      00FF0003H   BLOCK     CODE     ---       LVL=0
+      REG=3       REGSYM    ---      ---       puts
+      00FF0003H   LINE      CODE     ---       #76
+      00FF0007H   LINE      CODE     ---       #78
+      00FF0009H   LINE      CODE     ---       #80
+      00FF000FH   LINE      CODE     ---       #81
+      00FF0016H   LINE      CODE     ---       #82
       ---         BLOCKEND  ---      ---       LVL=0
 
-      00FF00E0H   BLOCK     CODE     ---       LVL=0
-      00FF00E0H   LINE      CODE     ---       #159
-      00FF00E4H   LINE      CODE     ---       #161
-      00FF00E7H   LINE      CODE     ---       #163
-      00FF00E9H   LINE      CODE     ---       #164
-      00FF00F6H   LINE      CODE     ---       #165
-      00FF0105H   LINE      CODE     ---       #166
-      00FF0105H   LINE      CODE     ---       #168
-      00FF0108H   LINE      CODE     ---       #170
-      00FF010AH   LINE      CODE     ---       #171
-      00FF010CH   LINE      CODE     ---       #172
+      00FF03D5H   BLOCK     CODE     ---       LVL=0
+      R15         REGSYM    ---      CHAR      c
+      00FF03D5H   LINE      CODE     ---       #85
+      00FF03D9H   LINE      CODE     ---       #87
+      00FF03DCH   LINE      CODE     ---       #88
+      00FF03DEH   LINE      CODE     ---       #89
       ---         BLOCKEND  ---      ---       LVL=0
 
       ---         MODULE    ---      ---       ?C_START
       00FF0000H   PUBLIC    CODE     ---       ?C?STARTUP
       00FF0000H   PUBLIC    CODE     ---       ?C_STARTUP
 
-Program Size: data=8.1 edata+hdata=386 xdata=0 const=39 code=283
-L251 RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
+      ---         MODULE    ---      ---       PRINTF
+      00000049H   PUBLIC    EDATA    ---       ?PRINTF?BYTE
+      00FF0026H   PUBLIC    CODE     NEAR LAB  PRINTF
+
+      ---         MODULE    ---      ---       ?C?PRNFMT
+      00FF007FH   PUBLIC    CODE     ---       ?C?PRNFMT
+
+
+
+*** WARNING L57: UNCALLED FUNCTION, IGNORED FOR OVERLAY PROCESS
+    NAME:    PrintString1/uart
+
+Program Size: data=8.1 edata+hdata=296 xdata=0 const=12 code=983
+L251 RUN COMPLETE.  1 WARNING(S),  0 ERROR(S)
