@@ -57,7 +57,7 @@ void UART1_int (void) interrupt 4
     }
 }
 
-void UART1_Send (u8 bat)
+void UART1_Send (unsigned char bat)
 {
     SBUF = bat;
     B_TX1_Busy = 1;
@@ -73,7 +73,7 @@ void UART1_Send (u8 bat)
 // 日期: 2014-11-28
 // 备注: 
 //========================================================================
-void PrintString1(u8 *puts)
+void PrintString1(unsigned char *puts)
 {
     for (; *puts != 0;  puts++)     //遇到停止符0结束
     {

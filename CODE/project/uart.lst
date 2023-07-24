@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  uart                                                               24/07/23  21:00:25  PAGE 1   
+C251 COMPILER V5.60.0,  uart                                                               24/07/23  21:31:50  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE uart
@@ -66,12 +66,12 @@ stmt  level    source
    54   1          {
    55   2              TI = 0;
    56   2              B_TX1_Busy = 0;
-C251 COMPILER V5.60.0,  uart                                                               24/07/23  21:00:25  PAGE 2   
+C251 COMPILER V5.60.0,  uart                                                               24/07/23  21:31:50  PAGE 2   
 
    57   2          }
    58   1      }
    59          
-   60          void UART1_Send (u8 bat)
+   60          void UART1_Send (unsigned char bat)
    61          {
    62   1          SBUF = bat;
    63   1          B_TX1_Busy = 1;
@@ -87,7 +87,7 @@ stmt  level    source
    73          // 日期: 2014-11-28
    74          // 备注: 
    75          //========================================================================
-   76          void PrintString1(u8 *puts)
+   76          void PrintString1(unsigned char *puts)
    77          {
    78   1          for (; *puts != 0;  puts++)     //遇到停止符0结束
    79   1          {

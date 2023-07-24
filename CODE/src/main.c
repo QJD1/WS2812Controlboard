@@ -1,14 +1,23 @@
+/**
+ * @author 漆锦东
+ * @brief 此项目用于ws2812控制板的驱动
+ * @date 2023/7/24
+ * **/
+
+
 #include "main.h"
-
-
 
 /******************** 主函数 **************************/
 void main(void)
 {
     SYS_Init();
+    LED_OFF();
     while (1)
     {
-        printf("abcde\r\n");
+        LED_ON();
+        Delay_ms(500);
+        LED_OFF();
+        Delay_ms(500);  
     }
 }
 
@@ -20,18 +29,25 @@ void SYS_Init()
     EAXFR = 1; //扩展寄存器(XFR)访问使能
     CKCON = 0; //提高访问XRAM速度
 
-    P0M1 = 0x30;   P0M0 = 0x30;   //设置P0.4、P0.5为漏极开路(实验箱加了上拉电阻到3.3V)
-    P1M1 = 0x30;   P1M0 = 0x30;   //设置P1.4、P1.5为漏极开路(实验箱加了上拉电阻到3.3V)
-    P2M1 = 0x3c;   P2M0 = 0x3c;   //设置P2.2~P2.5为漏极开路(实验箱加了上拉电阻到3.3V)
-    P3M1 = 0x50;   P3M0 = 0x50;   //设置P3.4、P3.6为漏极开路(实验箱加了上拉电阻到3.3V)
-    P4M1 = 0x3c;   P4M0 = 0x3c;   //设置P4.2~P4.5为漏极开路(实验箱加了上拉电阻到3.3V)
-    P5M1 = 0x0c;   P5M0 = 0x0c;   //设置P5.2、P5.3为漏极开路(实验箱加了上拉电阻到3.3V)
-    P6M1 = 0xff;   P6M0 = 0xff;   //设置为漏极开路(实验箱加了上拉电阻到3.3V)
-    P7M1 = 0x00;   P7M0 = 0x00;   //设置为准双向口
+    //IO口配置
+    P3M0 = 0x00; P3M1 = 0x00;
+    P5M0 = 0x06; P5M1 = 0x00; 
 
+    
     UART1_config();    // 选择波特率, 2: 使用Timer2做波特率, 其它值: 使用Timer1做波特率.
 
     EA = 1;             //允许全局中断
 }
 
+void Delay_ms(unsigned int xms)		//@22.1184MHz
+{
+	unsigned long i;
+	unsigned int k;
+    for(k = 0;k<xms ;k++)
+    {
+			_nop_();
+			i = 5528UL;
+			while (i) i--;
+    }
 
+}
