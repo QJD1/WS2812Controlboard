@@ -325,9 +325,9 @@
           <GroupName>src</GroupName>
           <Files>
             <File>
-              <FileName>main.c</FileName>
+              <FileName>main1.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\src\main.c</FilePath>
+              <FilePath>..\src\main1.c</FilePath>
             </File>
           </Files>
         </Group>

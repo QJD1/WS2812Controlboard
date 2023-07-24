@@ -1,8 +1,8 @@
-L251 LINKER/LOCATER V4.66.93.0                                                          07/24/2023  16:40:14  PAGE 1
+L251 LINKER/LOCATER V4.66.93.0                                                          07/24/2023  20:15:48  PAGE 1
 
 
 L251 LINKER/LOCATER V4.66.93.0, INVOKED BY:
-D:\KEIL\C251\BIN\L251.EXE .\main.obj TO sample CASE CLASSES (EDATA (0X0-0XFFF), HDATA (0X0-0XFFF))
+D:\KEIL\C251\BIN\L251.EXE .\main1.obj TO sample CASE CLASSES (EDATA (0X0-0XFFF), HDATA (0X0-0XFFF))
 
 
 CPU MODE:     251 SOURCE MODE
@@ -11,84 +11,84 @@ MEMORY MODEL: XSMALL
 
 
 INPUT MODULES INCLUDED:
-  .\main.obj (main)
+  .\main1.obj (main1)
          COMMENT TYPE 0: C251 V5.60.0
   D:\KEIL\C251\LIB\C2SXS.LIB (?C_START)
          COMMENT TYPE 0: A251 V4.69.6.0
 
 
-ACTIVE MEMORY CLASSES OF MODULE:  sample (main)
+ACTIVE MEMORY CLASSES OF MODULE:  sample (main1)
 
 BASE        START       END         USED      MEMORY CLASS
 ==========================================================
 000000H     000000H     000FFFH     000182H   EDATA
 000000H     000000H     000FFFH               HDATA
-000000H     FF0000H     FFFFFFH     00001FH   HCONST
-FF0000H     FF0000H     FFFFFFH     000137H   CODE
+000000H     FF0000H     FFFFFFH     000027H   HCONST
+FF0000H     FF0000H     FFFFFFH     00011BH   CODE
 000020H.0   000020H.0   00002FH.7   000000H.1 BIT
 000000H     000000H     00007FH     000008H   DATA
 
 
-MEMORY MAP OF MODULE:  sample (main)
+MEMORY MAP OF MODULE:  sample (main1)
 
 
 START     STOP      LENGTH    ALIGN  RELOC    MEMORY CLASS   SEGMENT NAME
 =========================================================================
 000000H   000007H   000008H   ---    AT..     DATA           "REG BANK 0"
 000008H.0 00001FH.7 000018H.0 ---    ---      **GAP**
-000020H.0 000020H.0 000000H.1 BIT    UNIT     BIT            ?BI?MAIN
+000020H.0 000020H.0 000000H.1 BIT    UNIT     BIT            ?BI?MAIN1
 000020H.1 000020H   000000H.7 ---    ---      **GAP**
-000021H   0000A2H   000082H   BYTE   UNIT     EDATA          ?ED?MAIN
+000021H   0000A2H   000082H   BYTE   UNIT     EDATA          ?ED?MAIN1
 0000A3H   0001A2H   000100H   BYTE   UNIT     EDATA          ?STACK
 0001A3H   FEFFFFH   FEFE5DH   ---    ---      **GAP**
 FF0000H   FF0002H   000003H   ---    OFFS..   CODE           ?CO?start251?4
-FF0003H   FF001AH   000018H   BYTE   INSEG    CODE           ?PR?SETTIMER2BAUDRAYE?MAIN
-FF001BH   FF0022H   000008H   ---    ---      **GAP**
+FF0003H   FF0015H   000013H   BYTE   UNIT     CODE           ?C_C51STARTUP
+FF0016H   FF0018H   000003H   BYTE   UNIT     CODE           ?C_C51STARTUP?3
+FF0019H   FF0022H   00000AH   ---    ---      **GAP**
 FF0023H   FF0025H   000003H   ---    OFFS..   CODE           ?PR?IV?4
-FF0026H   FF009EH   000079H   BYTE   INSEG    CODE           ?PR?MAIN?MAIN
-FF009FH   FF00E3H   000045H   BYTE   INSEG    CODE           ?PR?UART1_CONFIG?MAIN
-FF00E4H   FF0114H   000031H   BYTE   INSEG    CODE           ?PR?UART1_INT?MAIN
-FF0115H   FF0127H   000013H   BYTE   UNIT     CODE           ?C_C51STARTUP
-FF0128H   FF012AH   000003H   BYTE   UNIT     CODE           ?C_C51STARTUP?3
-FF012BH   FF013EH   000014H   BYTE   INSEG    CODE           ?PR?PRINTSTRING1?MAIN
-FF013FH   FF015DH   00001FH   BYTE   UNIT     HCONST         ?HC?MAIN
+FF0026H   FF006BH   000046H   BYTE   INSEG    CODE           ?PR?MAIN?MAIN1
+FF006CH   FF00ACH   000041H   BYTE   INSEG    CODE           ?PR?SYS_INIT?MAIN1
+FF00ADH   FF00DFH   000033H   BYTE   INSEG    CODE           ?PR?UART1_CONFIG?MAIN1
+FF00E0H   FF0110H   000031H   BYTE   INSEG    CODE           ?PR?UART1_INT?MAIN1
+FF0111H   FF0124H   000014H   BYTE   INSEG    CODE           ?PR?PRINTSTRING1?MAIN1
+FF0125H   FF014BH   000027H   BYTE   UNIT     HCONST         ?HC?MAIN1
 
 
 
-OVERLAY MAP OF MODULE:   sample (main)
+OVERLAY MAP OF MODULE:   sample (main1)
 
 
 FUNCTION/MODULE              BIT_GROUP   DATA_GROUP 
 --> CALLED FUNCTION/MODULE  START  STOP  START  STOP
 ====================================================
-UART1_int/main              ----- -----  ----- -----
+UART1_int/main1             ----- -----  ----- -----
 
 *** NEW ROOT **************
 
 ?C_C51STARTUP               ----- -----  ----- -----
 
-L251 LINKER/LOCATER V4.66.93.0                                                        07/24/2023  16:40:14  PAGE 2
+L251 LINKER/LOCATER V4.66.93.0                                                        07/24/2023  20:15:48  PAGE 2
 
 
 *** NEW ROOT **************
 
 ?C_C51STARTUP?3             ----- -----  ----- -----
-  +--> main/main
+  +--> main/main1
 
-main/main                   ----- -----  ----- -----
-  +--> UART1_config/main
-  +--> PrintString1/main
+main/main1                  ----- -----  ----- -----
+  +--> SYS_Init/main1
+  +--> PrintString1/main1
 
-UART1_config/main           ----- -----  ----- -----
-  +--> SetTimer2Baudraye/main
+SYS_Init/main1              ----- -----  ----- -----
+  +--> UART1_config/main1
 
-SetTimer2Baudraye/main      ----- -----  ----- -----
+UART1_config/main1          ----- -----  ----- -----
 
-PrintString1/main           ----- -----  ----- -----
+PrintString1/main1          ----- -----  ----- -----
 
 
 
-PUBLIC SYMBOLS OF MODULE:  sample (main)
+PUBLIC SYMBOLS OF MODULE:  sample (main1)
 
 
       VALUE       CLASS    TYPE      PUBLIC SYMBOL NAME
@@ -110,7 +110,6 @@ PUBLIC SYMBOLS OF MODULE:  sample (main)
 *SFR* 000000A8H.7 DATA     BIT       EA
 *SFR* 000000BAH.7 DATA     BIT       EAXFR
 *SFR* 000000A8H.4 DATA     BIT       ES
-*SFR* 000000A8H.3 DATA     BIT       ET1
 *SFR* 000000AFH.2 DATA     BIT       ET2
 *SFR* 000000C7H   DATA     BYTE      IAP_CONTR
 *SFR* 000000A8H   DATA     BYTE      IE
@@ -135,10 +134,10 @@ PUBLIC SYMBOLS OF MODULE:  sample (main)
 *SFR* 00000096H   DATA     BYTE      P2M0
 *SFR* 00000095H   DATA     BYTE      P2M1
 *SFR* 000000B0H   DATA     BYTE      P3
-L251 LINKER/LOCATER V4.66.93.0                                                        07/24/2023  16:40:14  PAGE 3
-
-
 *SFR* 000000B2H   DATA     BYTE      P3M0
+L251 LINKER/LOCATER V4.66.93.0                                                        07/24/2023  20:15:48  PAGE 3
+
+
 *SFR* 000000B1H   DATA     BYTE      P3M1
 *SFR* 000000C0H   DATA     BYTE      P4
 *SFR* 000000B4H   DATA     BYTE      P4M0
@@ -156,7 +155,7 @@ PUBLIC SYMBOLS OF MODULE:  sample (main)
 *SFR* 000000BAH   DATA     BYTE      P_SW2
 *SFR* 000000BBH   DATA     BYTE      P_SW3
 *SFR* 00000087H   DATA     BYTE      PCON
-      00FF012BH   CODE     ---       PrintString1
+      00FF0111H   CODE     ---       PrintString1
 *SFR* 000000D0H   DATA     BYTE      PSW
 *SFR* 00000098H.4 DATA     BIT       REN
 *SFR* 00000098H.0 DATA     BIT       RI
@@ -169,11 +168,9 @@ PUBLIC SYMBOLS OF MODULE:  sample (main)
 *SFR* 000000FDH   DATA     BYTE      S4CON
 *SFR* 00000099H   DATA     BYTE      SBUF
 *SFR* 00000098H   DATA     BYTE      SCON
-      00FF0003H   CODE     ---       SetTimer2Baudraye
 *SFR* 000000CEH   DATA     BYTE      SPCTL
 *SFR* 000000CDH   DATA     BYTE      SPSTAT
-*SFR* 00000089H.6 DATA     BIT       T1_CT
-*SFR* 0000008EH.6 DATA     BIT       T1x12
+      00FF006CH   CODE     ---       SYS_Init
 *SFR* 0000008EH.3 DATA     BIT       T2_CT
 *SFR* 000000D6H   DATA     BYTE      T2H
 *SFR* 000000D7H   DATA     BYTE      T2L
@@ -181,40 +178,36 @@ PUBLIC SYMBOLS OF MODULE:  sample (main)
 *SFR* 0000008EH.2 DATA     BIT       T2x12
 *SFR* 000000DDH   DATA     BYTE      T4T3M
 *SFR* 00000088H   DATA     BYTE      TCON
-*SFR* 0000008DH   DATA     BYTE      TH1
 *SFR* 00000098H.1 DATA     BIT       TI
-*SFR* 0000008BH   DATA     BYTE      TL1
 *SFR* 00000089H   DATA     BYTE      TMOD
-*SFR* 00000088H.6 DATA     BIT       TR1
       000000A2H   EDATA    BYTE      TX1_Cnt
-      00FF009FH   CODE     ---       UART1_config
-      00FF00E4H   CODE     ---       UART1_int
+      00FF00ADH   CODE     ---       UART1_config
+      00FF00E0H   CODE     ---       UART1_int
 *SFR* 000000F4H   DATA     BYTE      USBCON
 *SFR* 000000C1H   DATA     BYTE      WDT_CONTR
 *SFR* 000000E9H   DATA     BYTE      WTST
 
 
 
-SYMBOL TABLE OF MODULE:  sample (main)
+SYMBOL TABLE OF MODULE:  sample (main1)
 
       VALUE       REP       CLASS    TYPE      SYMBOL NAME
       ====================================================
-      ---         MODULE    ---      ---       main
-      00FF0003H   PUBLIC    CODE     ---       SetTimer2Baudraye
-      00FF00E4H   PUBLIC    CODE     ---       UART1_int
+      ---         MODULE    ---      ---       main1
+      00FF00E0H   PUBLIC    CODE     ---       UART1_int
       00FF0026H   PUBLIC    CODE     ---       main
-L251 LINKER/LOCATER V4.66.93.0                                                        07/24/2023  16:40:14  PAGE 4
-
-
-      00FF012BH   PUBLIC    CODE     ---       PrintString1
-      00FF009FH   PUBLIC    CODE     ---       UART1_config
+      00FF0111H   PUBLIC    CODE     ---       PrintString1
+      00FF00ADH   PUBLIC    CODE     ---       UART1_config
+      00FF006CH   PUBLIC    CODE     ---       SYS_Init
       00000020H.0 PUBLIC    BIT      BIT       B_TX1_Busy
       00000021H   PUBLIC    EDATA    ---       RX1_Buffer
       000000A1H   PUBLIC    EDATA    BYTE      RX1_Cnt
       000000A2H   PUBLIC    EDATA    BYTE      TX1_Cnt
+L251 LINKER/LOCATER V4.66.93.0                                                        07/24/2023  20:15:48  PAGE 4
+
+
       0000008EH.3 SFRSYM    DATA     BIT       T2_CT
       00000094H   SFRSYM    DATA     BYTE      P0M0
-      00000089H.6 SFRSYM    DATA     BIT       T1_CT
       000000D0H   SFRSYM    DATA     BYTE      PSW
       000000BAH.7 SFRSYM    DATA     BIT       EAXFR
       0000009DH   SFRSYM    DATA     BYTE      IRCBAND
@@ -227,24 +220,19 @@ SYMBOL TABLE OF MODULE:  sample (main)
       0000009AH   SFRSYM    DATA     BYTE      S2CON
       00000098H.4 SFRSYM    DATA     BIT       REN
       0000008EH.2 SFRSYM    DATA     BIT       T2x12
-      0000008EH.6 SFRSYM    DATA     BIT       T1x12
       000000B7H   SFRSYM    DATA     BYTE      IPH
       000000CDH   SFRSYM    DATA     BYTE      SPSTAT
       000000DDH   SFRSYM    DATA     BYTE      T4T3M
       0000008EH.4 SFRSYM    DATA     BIT       T2R
       000000C1H   SFRSYM    DATA     BYTE      WDT_CONTR
-      00000088H.6 SFRSYM    DATA     BIT       TR1
       000000E9H   SFRSYM    DATA     BYTE      WTST
       000000D7H   SFRSYM    DATA     BYTE      T2L
-      0000008BH   SFRSYM    DATA     BYTE      TL1
       000000D6H   SFRSYM    DATA     BYTE      T2H
-      0000008DH   SFRSYM    DATA     BYTE      TH1
       000000DFH   SFRSYM    DATA     BYTE      IP3
       000000F4H   SFRSYM    DATA     BYTE      USBCON
       000000AFH.2 SFRSYM    DATA     BIT       ET2
       000000B5H   SFRSYM    DATA     BYTE      IP2
       000000FFH   SFRSYM    DATA     BYTE      RSTCFG
-      000000A8H.3 SFRSYM    DATA     BIT       ET1
       000000C7H   SFRSYM    DATA     BYTE      IAP_CONTR
       000000F9H   SFRSYM    DATA     BYTE      LINICR
       0000008EH   SFRSYM    DATA     BYTE      AUXR
@@ -271,9 +259,6 @@ SYMBOL TABLE OF MODULE:  sample (main)
       000000BAH   SFRSYM    DATA     BYTE      P_SW2
       000000A2H   SFRSYM    DATA     BYTE      P_SW1
       000000CEH   SFRSYM    DATA     BYTE      SPCTL
-L251 LINKER/LOCATER V4.66.93.0                                                        07/24/2023  16:40:14  PAGE 5
-
-
       000000F8H   SFRSYM    DATA     BYTE      P7
       000000A8H.7 SFRSYM    DATA     BIT       EA
       000000E1H   SFRSYM    DATA     BYTE      P7M1
@@ -286,6 +271,9 @@ SYMBOL TABLE OF MODULE:  sample (main)
       000000CCH   SFRSYM    DATA     BYTE      P6M0
       000000B0H   SFRSYM    DATA     BYTE      P3
       000000B3H   SFRSYM    DATA     BYTE      P4M1
+L251 LINKER/LOCATER V4.66.93.0                                                        07/24/2023  20:15:48  PAGE 5
+
+
       000000CAH   SFRSYM    DATA     BYTE      P5M0
       000000A0H   SFRSYM    DATA     BYTE      P2
       000000B1H   SFRSYM    DATA     BYTE      P3M1
@@ -300,100 +288,87 @@ SYMBOL TABLE OF MODULE:  sample (main)
       00000093H   SFRSYM    DATA     BYTE      P0M1
 
       00FF0026H   BLOCK     CODE     ---       LVL=0
-      00FF0026H   LINE      CODE     ---       #44
-      00FF0026H   LINE      CODE     ---       #46
-      00FF0029H   LINE      CODE     ---       #47
-      00FF002CH   LINE      CODE     ---       #48
-      00FF002FH   LINE      CODE     ---       #50
-      00FF0035H   LINE      CODE     ---       #51
-      00FF003BH   LINE      CODE     ---       #52
-      00FF0041H   LINE      CODE     ---       #53
-      00FF0047H   LINE      CODE     ---       #54
-      00FF004DH   LINE      CODE     ---       #55
-      00FF0053H   LINE      CODE     ---       #56
-      00FF0059H   LINE      CODE     ---       #57
-      00FF005FH   LINE      CODE     ---       #59
-      00FF0064H   LINE      CODE     ---       #60
-      00FF0066H   LINE      CODE     ---       #62
-      00FF0071H   LINE      CODE     ---       #64
-      00FF0071H   LINE      CODE     ---       #66
-      00FF007EH   LINE      CODE     ---       #68
-      00FF008AH   LINE      CODE     ---       #69
-      00FF008CH   LINE      CODE     ---       #70
-      00FF009DH   LINE      CODE     ---       #71
-      00FF009DH   LINE      CODE     ---       #72
+      00FF0026H   LINE      CODE     ---       #56
+      00FF0026H   LINE      CODE     ---       #58
+      00FF0029H   LINE      CODE     ---       #62
+      00FF0033H   LINE      CODE     ---       #64
+      00FF0033H   LINE      CODE     ---       #66
+      00FF0040H   LINE      CODE     ---       #68
+      00FF004CH   LINE      CODE     ---       #69
+      00FF004EH   LINE      CODE     ---       #70
+      00FF005FH   LINE      CODE     ---       #71
+      00FF005FH   LINE      CODE     ---       #72
+      00FF006AH   LINE      CODE     ---       #73
       ---         BLOCKEND  ---      ---       LVL=0
 
-      00FF012BH   BLOCK     CODE     ---       LVL=0
+      00FF006CH   BLOCK     CODE     ---       LVL=0
+      00FF006CH   LINE      CODE     ---       #77
+      00FF006CH   LINE      CODE     ---       #79
+      00FF006FH   LINE      CODE     ---       #80
+      00FF0072H   LINE      CODE     ---       #81
+      00FF0075H   LINE      CODE     ---       #83
+      00FF007BH   LINE      CODE     ---       #84
+      00FF0081H   LINE      CODE     ---       #85
+      00FF0087H   LINE      CODE     ---       #86
+      00FF008DH   LINE      CODE     ---       #87
+      00FF0093H   LINE      CODE     ---       #88
+      00FF0099H   LINE      CODE     ---       #89
+      00FF009FH   LINE      CODE     ---       #90
+      00FF00A5H   LINE      CODE     ---       #92
+      00FF00AAH   LINE      CODE     ---       #94
+      00FF00ACH   LINE      CODE     ---       #95
+      ---         BLOCKEND  ---      ---       LVL=0
+
+      00FF0111H   BLOCK     CODE     ---       LVL=0
       REG=0       REGSYM    ---      ---       puts
-      00FF012BH   LINE      CODE     ---       #84
-      00FF012BH   LINE      CODE     ---       #86
-      00FF012DH   LINE      CODE     ---       #88
-      00FF0132H   LINE      CODE     ---       #89
-      00FF0134H   LINE      CODE     ---       #90
-      00FF0137H   LINE      CODE     ---       #91
-      00FF013EH   LINE      CODE     ---       #92
+      00FF0111H   LINE      CODE     ---       #107
+      00FF0111H   LINE      CODE     ---       #109
+      00FF0113H   LINE      CODE     ---       #111
+      00FF0118H   LINE      CODE     ---       #112
+      00FF011AH   LINE      CODE     ---       #113
+      00FF011DH   LINE      CODE     ---       #114
+      00FF0124H   LINE      CODE     ---       #115
       ---         BLOCKEND  ---      ---       LVL=0
 
-      00FF0003H   BLOCK     CODE     ---       LVL=0
-      DR4         REGSYM    ---      DWORD     dat
-      00FF0003H   LINE      CODE     ---       #103
-      00FF0003H   LINE      CODE     ---       #105
-L251 LINKER/LOCATER V4.66.93.0                                                        07/24/2023  16:40:14  PAGE 6
+      00FF00ADH   BLOCK     CODE     ---       LVL=0
+      00FF00ADH   LINE      CODE     ---       #126
+      00FF00ADH   LINE      CODE     ---       #128
+      00FF00B0H   LINE      CODE     ---       #129
+      00FF00B3H   LINE      CODE     ---       #130
+      00FF00B6H   LINE      CODE     ---       #131
+      00FF00B9H   LINE      CODE     ---       #132
+      00FF00BCH   LINE      CODE     ---       #133
+      00FF00BFH   LINE      CODE     ---       #134
+L251 LINKER/LOCATER V4.66.93.0                                                        07/24/2023  20:15:48  PAGE 6
 
 
-      00FF0006H   LINE      CODE     ---       #106
-      00FF0009H   LINE      CODE     ---       #107
-      00FF000CH   LINE      CODE     ---       #108
-      00FF0010H   LINE      CODE     ---       #109
-      00FF0014H   LINE      CODE     ---       #110
-      00FF0017H   LINE      CODE     ---       #111
-      00FF001AH   LINE      CODE     ---       #112
+      00FF00C2H   LINE      CODE     ---       #135
+      00FF00C5H   LINE      CODE     ---       #137
+      00FF00CDH   LINE      CODE     ---       #139
+      00FF00CFH   LINE      CODE     ---       #140
+      00FF00D1H   LINE      CODE     ---       #141
+      00FF00D4H   LINE      CODE     ---       #144
+      00FF00D6H   LINE      CODE     ---       #145
+      00FF00DBH   LINE      CODE     ---       #146
+      00FF00DFH   LINE      CODE     ---       #147
       ---         BLOCKEND  ---      ---       LVL=0
 
-      00FF009FH   BLOCK     CODE     ---       LVL=0
-      R7          REGSYM    ---      BYTE      brt
-      00FF009FH   LINE      CODE     ---       #123
-      00FF00A1H   LINE      CODE     ---       #126
-      00FF00A5H   LINE      CODE     ---       #128
-      00FF00A8H   LINE      CODE     ---       #129
-      00FF00AFH   LINE      CODE     ---       #130
-      00FF00B1H   LINE      CODE     ---       #135
-      00FF00B3H   LINE      CODE     ---       #136
-      00FF00B6H   LINE      CODE     ---       #137
-      00FF00B9H   LINE      CODE     ---       #138
-      00FF00BCH   LINE      CODE     ---       #139
-      00FF00BFH   LINE      CODE     ---       #140
-      00FF00C2H   LINE      CODE     ---       #141
-      00FF00C5H   LINE      CODE     ---       #142
-      00FF00C7H   LINE      CODE     ---       #143
-      00FF00C9H   LINE      CODE     ---       #144
-      00FF00C9H   LINE      CODE     ---       #147
-      00FF00D1H   LINE      CODE     ---       #149
-      00FF00D3H   LINE      CODE     ---       #150
-      00FF00D5H   LINE      CODE     ---       #151
-      00FF00D8H   LINE      CODE     ---       #154
-      00FF00DAH   LINE      CODE     ---       #155
-      00FF00DFH   LINE      CODE     ---       #156
-      00FF00E3H   LINE      CODE     ---       #157
-      ---         BLOCKEND  ---      ---       LVL=0
-
-      00FF00E4H   BLOCK     CODE     ---       LVL=0
-      00FF00E4H   LINE      CODE     ---       #169
-      00FF00E8H   LINE      CODE     ---       #171
-      00FF00EBH   LINE      CODE     ---       #173
-      00FF00EDH   LINE      CODE     ---       #174
-      00FF00FAH   LINE      CODE     ---       #175
-      00FF0109H   LINE      CODE     ---       #176
-      00FF0109H   LINE      CODE     ---       #178
-      00FF010CH   LINE      CODE     ---       #180
-      00FF010EH   LINE      CODE     ---       #181
-      00FF0110H   LINE      CODE     ---       #182
+      00FF00E0H   BLOCK     CODE     ---       LVL=0
+      00FF00E0H   LINE      CODE     ---       #159
+      00FF00E4H   LINE      CODE     ---       #161
+      00FF00E7H   LINE      CODE     ---       #163
+      00FF00E9H   LINE      CODE     ---       #164
+      00FF00F6H   LINE      CODE     ---       #165
+      00FF0105H   LINE      CODE     ---       #166
+      00FF0105H   LINE      CODE     ---       #168
+      00FF0108H   LINE      CODE     ---       #170
+      00FF010AH   LINE      CODE     ---       #171
+      00FF010CH   LINE      CODE     ---       #172
       ---         BLOCKEND  ---      ---       LVL=0
 
       ---         MODULE    ---      ---       ?C_START
       00FF0000H   PUBLIC    CODE     ---       ?C?STARTUP
       00FF0000H   PUBLIC    CODE     ---       ?C_STARTUP
 
-Program Size: data=8.1 edata+hdata=386 xdata=0 const=31 code=311
+Program Size: data=8.1 edata+hdata=386 xdata=0 const=39 code=283
 L251 RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
