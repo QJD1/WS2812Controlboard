@@ -1,6 +1,8 @@
 ".\main.obj",
 ".\uart.obj",
-".\led.obj" 
+".\led.obj",
+".\adc.obj",
+".\ws2812.obj" 
 TO "sample" 
 CASE 
 CLASSES (EDATA (0x0-0xFFF), 

@@ -27,7 +27,7 @@ void UART1_config()
     ES  = 1;    //允许中断
     REN = 1;    //允许接收
     P_SW1 &= 0x3f;
-//  P_SW1 |= 0x00;      //UART1 switch to, 0x00: P3.0 P3.1, 0x40: P3.6 P3.7, 0x80: P1.6 P1.7, 0xC0: P4.3 P4.4
+    P_SW1 |= 0x40;      //UART1 switch to, 0x00: P3.0 P3.1, 0x40: P3.6 P3.7, 0x80: P1.6 P1.7, 0xC0: P4.3 P4.4
 
     B_TX1_Busy = 0;
 }
@@ -57,6 +57,7 @@ void UART1_int (void) interrupt 4
     }
 }
 
+//发送单个字符
 void UART1_Send (unsigned char bat)
 {
     SBUF = bat;

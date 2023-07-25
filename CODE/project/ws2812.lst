@@ -1,0 +1,148 @@
+C251 COMPILER V5.60.0,  ws2812                                                             25/07/23  22:04:15  PAGE 1   
+
+
+C251 COMPILER V5.60.0, COMPILATION OF MODULE ws2812
+OBJECT MODULE PLACED IN .\ws2812.obj
+COMPILER INVOKED BY: D:\keil\C251\BIN\C251.EXE ..\src\ws2812.c XSMALL INTR2 BROWSE INCDIR(..\inc) DEBUG PRINT(.\ws2812.l
+                    -st) TABS(2) OBJECT(.\ws2812.obj) 
+
+stmt  level    source
+
+    1          #include "main.h"
+    2          
+    3          
+    4          
+    5          #define SEND_BIT0 {P51 = 1; NOP8(); P51 = 0; NOP16();}
+    6          #define SEND_BIT1 {P51 = 1; NOP19(); P51 = 0; NOP3();}
+    7          
+    8          unsigned char bdata green_dat , red_dat , blue_dat;
+    9          
+   10          sbit green_dat_bit0 = green_dat^0;
+   11          sbit green_dat_bit1 = green_dat^1;
+   12          sbit green_dat_bit2 = green_dat^2;
+   13          sbit green_dat_bit3 = green_dat^3;
+   14          sbit green_dat_bit4 = green_dat^4;
+   15          sbit green_dat_bit5 = green_dat^5;
+   16          sbit green_dat_bit6 = green_dat^6;
+   17          sbit green_dat_bit7 = green_dat^7;
+   18          
+   19          sbit red_dat_bit0 = red_dat^0;
+   20          sbit red_dat_bit1 = red_dat^1;
+   21          sbit red_dat_bit2 = red_dat^2;
+   22          sbit red_dat_bit3 = red_dat^3;
+   23          sbit red_dat_bit4 = red_dat^4;
+   24          sbit red_dat_bit5 = red_dat^5;
+   25          sbit red_dat_bit6 = red_dat^6;
+   26          sbit red_dat_bit7 = red_dat^7;
+   27          
+   28          sbit blue_dat_bit0 = blue_dat^0;
+   29          sbit blue_dat_bit1 = blue_dat^1;
+   30          sbit blue_dat_bit2 = blue_dat^2;
+   31          sbit blue_dat_bit3 = blue_dat^3;
+   32          sbit blue_dat_bit4 = blue_dat^4;
+   33          sbit blue_dat_bit5 = blue_dat^5;
+   34          sbit blue_dat_bit6 = blue_dat^6;
+   35          sbit blue_dat_bit7 = blue_dat^7;
+   36          
+   37          
+   38          void WS2812_WriteColor(unsigned char green , unsigned char red , unsigned char blue)
+   39          {
+   40   1          green_dat = green;
+   41   1          red_dat = red;
+   42   1          blue_dat = blue;
+   43   1          //发送绿色
+   44   1          if(green_dat_bit7){SEND_BIT1}else{SEND_BIT0};
+   45   1          if(green_dat_bit6){SEND_BIT1}else{SEND_BIT0};
+   46   1          if(green_dat_bit5){SEND_BIT1}else{SEND_BIT0};
+   47   1          if(green_dat_bit4){SEND_BIT1}else{SEND_BIT0};
+   48   1          if(green_dat_bit3){SEND_BIT1}else{SEND_BIT0};
+   49   1          if(green_dat_bit2){SEND_BIT1}else{SEND_BIT0};
+   50   1          if(green_dat_bit1){SEND_BIT1}else{SEND_BIT0};
+   51   1        if(green_dat_bit0){SEND_BIT1}else{SEND_BIT0};
+   52   1          //发送红色
+   53   1          if(red_dat_bit7){SEND_BIT1}else{SEND_BIT0};
+   54   1          if(red_dat_bit6){SEND_BIT1}else{SEND_BIT0};
+   55   1          if(red_dat_bit5){SEND_BIT1}else{SEND_BIT0};
+   56   1          if(red_dat_bit4){SEND_BIT1}else{SEND_BIT0};
+   57   1          if(red_dat_bit3){SEND_BIT1}else{SEND_BIT0};
+   58   1          if(red_dat_bit2){SEND_BIT1}else{SEND_BIT0};
+C251 COMPILER V5.60.0,  ws2812                                                             25/07/23  22:04:15  PAGE 2   
+
+   59   1          if(red_dat_bit1){SEND_BIT1}else{SEND_BIT0};
+   60   1        if(red_dat_bit0){SEND_BIT1}else{SEND_BIT0};
+   61   1          //发送蓝色
+   62   1          if(blue_dat_bit7){SEND_BIT1}else{SEND_BIT0};
+   63   1          if(blue_dat_bit6){SEND_BIT1}else{SEND_BIT0};
+   64   1          if(blue_dat_bit5){SEND_BIT1}else{SEND_BIT0};
+   65   1          if(blue_dat_bit4){SEND_BIT1}else{SEND_BIT0};
+   66   1          if(blue_dat_bit3){SEND_BIT1}else{SEND_BIT0};
+   67   1          if(blue_dat_bit2){SEND_BIT1}else{SEND_BIT0};
+   68   1          if(blue_dat_bit1){SEND_BIT1}else{SEND_BIT0};
+   69   1        if(blue_dat_bit0){SEND_BIT1}else{SEND_BIT0};
+   70   1      
+   71   1      }
+   72          
+   73          #define WS2812_NUM 30//灯珠数量
+   74          enum WS2812_RunMode mode = voiceCtrl_mode;
+   75          unsigned char voiceGrade = 0;
+   76          
+   77          void WS2812_RunTask()
+   78          {
+   79   1          unsigned char i;
+   80   1          while(1)
+   81   1          {
+   82   2              switch (mode)
+   83   2              {
+   84   3                  //关闭模式
+   85   3              case close_mode:
+   86   3                  for ( i = 0; i < WS2812_NUM; i++)
+   87   3                  {
+   88   4                      WS2812_WriteColor(0,0,0);
+   89   4                  }
+   90   3                  Delay300us();
+   91   3                  break;
+   92   3      
+   93   3                  //声控模式
+   94   3              case voiceCtrl_mode:
+   95   3                  voiceGrade = Get_ADC12bitResult(0)/(2100/WS2812_NUM);
+   96   3                  if(voiceGrade > WS2812_NUM) voiceGrade = WS2812_NUM;
+   97   3                  for ( i = 0; i < WS2812_NUM; i++)
+   98   3                  {
+   99   4                      if(i<voiceGrade)    WS2812_WriteColor(0xff,0,0);
+  100   4                      else WS2812_WriteColor(0,0,0);
+  101   4                  }
+  102   3                  
+  103   3            printf("grade:%d  adc:%d\r\n",voiceGrade,Get_ADC12bitResult(0));  
+  104   3                  Delay300us();
+  105   3                  break;
+  106   3              default:
+  107   3                  break;
+  108   3              }
+  109   2          }
+  110   1      }
+
+
+Module Information          Static   Overlayable
+------------------------------------------------
+  code size            =      1473     ------
+  ecode size           =    ------     ------
+  data size            =    ------     ------
+  idata size           =    ------     ------
+  pdata size           =    ------     ------
+  xdata size           =    ------     ------
+  xdata-const size     =    ------     ------
+  edata size           =         3     ------
+  bit size             =    ------     ------
+  ebit size            =    ------     ------
+  bitaddressable size  =         3     ------
+C251 COMPILER V5.60.0,  ws2812                                                             25/07/23  22:04:15  PAGE 3   
+
+  ebitaddressable size =    ------     ------
+  far data size        =    ------     ------
+  huge data size       =    ------     ------
+  const size           =    ------     ------
+  hconst size          =        30     ------
+End of Module Information.
+
+
+C251 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
