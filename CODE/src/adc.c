@@ -14,7 +14,7 @@ void ADC_Init()
 
 
 //========================================================================
-// 函数: u16 Get_ADC12bitResult(u8 channel))	//channel = 0~15
+// 函数: unsigned int Get_ADC12bitResult(u8 channel))	//channel = 0~15
 // 描述: 查询法读一次ADC结果.
 // 参数: channel: 选择要转换的ADC, 0~15.
 // 返回: 12位ADC结果.
@@ -33,7 +33,7 @@ unsigned int Get_ADC12bitResult(unsigned char channel)	//channel = 0~15
 	_nop_();
     while(ADC_FLAG == 0);   //wait for ADC finish
     ADC_FLAG = 0;     //清除ADC结束标志
-	return (((u16)ADC_RES << 8) | ADC_RESL);
+	return (((unsigned int)ADC_RES << 8) | ADC_RESL);
 }
 
 //#define		SUM_LENGTH	16	/* 平均值采样次数 最大值16 */
@@ -43,7 +43,7 @@ unsigned int Get_ADC12bitResult(unsigned char channel)	//channel = 0~15
 ***********************************/
 // void ADC_convert(u8 chn)
 // {
-// 	u16	j;
+// 	unsigned int	j;
 // 	u8	k;		//平均值滤波时使用
 
 // 	Get_ADC12bitResult(chn);		//参数i=0~15,查询方式做一次ADC, 切换通道后第一次转换结果丢弃. 避免采样电容的残存电压影响.

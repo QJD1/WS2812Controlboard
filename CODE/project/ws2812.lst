@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  ws2812                                                             25/07/23  22:04:15  PAGE 1   
+C251 COMPILER V5.60.0,  ws2812                                                             27/07/23  09:10:54  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE ws2812
@@ -9,8 +9,8 @@ COMPILER INVOKED BY: D:\keil\C251\BIN\C251.EXE ..\src\ws2812.c XSMALL INTR2 BROW
 stmt  level    source
 
     1          #include "main.h"
-    2          
-    3          
+    2          #include <stdlib.h>
+    3          #include "math.h"
     4          
     5          #define SEND_BIT0 {P51 = 1; NOP8(); P51 = 0; NOP16();}
     6          #define SEND_BIT1 {P51 = 1; NOP19(); P51 = 0; NOP3();}
@@ -66,7 +66,7 @@ stmt  level    source
    56   1          if(red_dat_bit4){SEND_BIT1}else{SEND_BIT0};
    57   1          if(red_dat_bit3){SEND_BIT1}else{SEND_BIT0};
    58   1          if(red_dat_bit2){SEND_BIT1}else{SEND_BIT0};
-C251 COMPILER V5.60.0,  ws2812                                                             25/07/23  22:04:15  PAGE 2   
+C251 COMPILER V5.60.0,  ws2812                                                             27/07/23  09:10:54  PAGE 2   
 
    59   1          if(red_dat_bit1){SEND_BIT1}else{SEND_BIT0};
    60   1        if(red_dat_bit0){SEND_BIT1}else{SEND_BIT0};
@@ -83,65 +83,174 @@ stmt  level    source
    71   1      }
    72          
    73          #define WS2812_NUM 30//灯珠数量
-   74          enum WS2812_RunMode mode = voiceCtrl_mode;
-   75          unsigned char voiceGrade = 0;
-   76          
-   77          void WS2812_RunTask()
-   78          {
-   79   1          unsigned char i;
-   80   1          while(1)
-   81   1          {
-   82   2              switch (mode)
-   83   2              {
-   84   3                  //关闭模式
-   85   3              case close_mode:
-   86   3                  for ( i = 0; i < WS2812_NUM; i++)
-   87   3                  {
-   88   4                      WS2812_WriteColor(0,0,0);
-   89   4                  }
-   90   3                  Delay300us();
-   91   3                  break;
-   92   3      
-   93   3                  //声控模式
-   94   3              case voiceCtrl_mode:
-   95   3                  voiceGrade = Get_ADC12bitResult(0)/(2100/WS2812_NUM);
-   96   3                  if(voiceGrade > WS2812_NUM) voiceGrade = WS2812_NUM;
-   97   3                  for ( i = 0; i < WS2812_NUM; i++)
-   98   3                  {
-   99   4                      if(i<voiceGrade)    WS2812_WriteColor(0xff,0,0);
-  100   4                      else WS2812_WriteColor(0,0,0);
-  101   4                  }
-  102   3                  
-  103   3            printf("grade:%d  adc:%d\r\n",voiceGrade,Get_ADC12bitResult(0));  
-  104   3                  Delay300us();
-  105   3                  break;
-  106   3              default:
-  107   3                  break;
-  108   3              }
-  109   2          }
-  110   1      }
+   74          
+   75          enum WS2812_RunMode mode = voiceCtrl_mode;
+   76          unsigned char voiceGrade = 0;//音量等级
+   77          unsigned char brightness = 80;//亮度
+   78          unsigned char color_G[WS2812_NUM];
+   79          unsigned char color_R[WS2812_NUM];
+   80          unsigned char color_B[WS2812_NUM];
+   81          
+   82          //显示
+   83          void WS2812_Show()
+   84          {
+   85   1          unsigned char i;
+   86   1          for ( i = 0; i < WS2812_NUM; i++)
+   87   1          {
+   88   2              WS2812_WriteColor(color_G[i],color_R[i],color_B[i]);
+   89   2          }
+   90   1          Delay300us();
+   91   1      }
+   92          
+   93          void WS2812_RunTask()
+   94          {
+   95   1          unsigned char i;
+   96   1          unsigned char randNum_G,randNum_R,randNum_B;
+   97   1          bit firework_busy = 0;
+   98   1          unsigned char firework_index = 0;
+   99   1      
+  100   1          while(1)
+  101   1          {
+  102   2              //选择模式 ，然后给三个颜色赋值
+  103   2              switch (mode)
+  104   2              {
+  105   3                  //关闭模式
+  106   3              case close_mode:
+  107   3                  for(i = 0 ; i<WS2812_NUM ; i++)
+  108   3                  {
+  109   4                      color_G[i] = 0;
+  110   4                      color_R[i] = 0;
+  111   4                      color_B[i] = 0;
+  112   4                  }
+  113   3                  break;
+  114   3      
+  115   3                  //声控模式
+  116   3              case voiceCtrl_mode:
+  117   3                  voiceGrade = Get_ADC12bitResult(0)/(2300/WS2812_NUM);
+  118   3                  if(voiceGrade > WS2812_NUM) voiceGrade = WS2812_NUM;
+  119   3                  //随机颜色
+  120   3                  srand(Get_ADC12bitResult(0));
+  121   3                  randNum_G = ((rand()*rand())/256) * brightness / 100;
+  122   3      
+  123   3                  srand(10*sin(Get_ADC12bitResult(0))+10);
+  124   3                  randNum_R = ((rand()*rand())/256) * brightness / 100;
+C251 COMPILER V5.60.0,  ws2812                                                             27/07/23  09:10:54  PAGE 3   
+
+  125   3      
+  126   3                  srand(10*cos(Get_ADC12bitResult(0))+10);
+  127   3                  randNum_B = ((rand()*rand())/256) * brightness / 100;
+  128   3      
+  129   3                  for ( i = 0; i < WS2812_NUM; i++)
+  130   3                  {
+  131   4                      if(i<voiceGrade) 
+  132   4                      {
+  133   5                          color_G[i] = randNum_G;
+  134   5                          color_R[i] = randNum_R;
+  135   5                          color_B[i] = randNum_B;
+  136   5                      }   
+  137   4                      else 
+  138   4                      {
+  139   5                          color_G[i] = 0;
+  140   5                          color_R[i] = 0;
+  141   5                          color_B[i] = 0;
+  142   5                      }
+  143   4                  }
+  144   3                  //printf("G:%d R:%d B:%d\r\n",randNum_G,randNum_R,randNum_B);
+  145   3            //printf("grade:%d  adc:%d\r\n",voiceGrade,Get_ADC12bitResult(0));  
+  146   3                  break;
+  147   3              
+  148   3              //烟花模式
+  149   3              case firework_mode:
+  150   3                  if(firework_busy)
+  151   3                  {
+  152   4                      if(firework_index <= WS2812_NUM+(WS2812_NUM/3))
+  153   4                      {
+  154   5                          for ( i = 0; i < WS2812_NUM; i++)
+  155   5                          {
+  156   6                              if(i>=firework_index && i<(firework_index+(WS2812_NUM/3)) )
+  157   6                              {
+  158   7                                  color_G[i] = randNum_G;
+  159   7                                  color_R[i] = randNum_R;
+  160   7                                  color_B[i] = randNum_B;
+  161   7                              }   
+  162   6                              else 
+  163   6                              {
+  164   7                                  color_G[i] = 0;
+  165   7                                  color_R[i] = 0;
+  166   7                                  color_B[i] = 0;
+  167   7                              }
+  168   6                          }
+  169   5                          firework_index++;
+  170   5                          Delay_ms(50);
+  171   5                      }
+  172   4                      else 
+  173   4                      {
+  174   5                          firework_busy = 0;
+  175   5                      }
+  176   4                  }
+  177   3                  else 
+  178   3                  {
+  179   4                      voiceGrade = Get_ADC12bitResult(0)/(2300/WS2812_NUM);
+  180   4                      if(voiceGrade >= WS2812_NUM - (WS2812_NUM/3))
+  181   4                      {
+  182   5                          firework_busy = 1;
+  183   5                          firework_index = 0;
+  184   5                          //随机颜色
+  185   5                          srand(Get_ADC12bitResult(0));
+  186   5                          randNum_G = ((rand()*rand())/256) * brightness / 100;
+  187   5      
+  188   5                          srand(10*sin(Get_ADC12bitResult(0))+10);
+  189   5                          randNum_R = ((rand()*rand())/256) * brightness / 100;
+  190   5      
+C251 COMPILER V5.60.0,  ws2812                                                             27/07/23  09:10:54  PAGE 4   
+
+  191   5                          srand(10*cos(Get_ADC12bitResult(0))+10);
+  192   5                          randNum_B = ((rand()*rand())/256) * brightness / 100;
+  193   5      
+  194   5                          if(randNum_G == randNum_R == randNum_B == 0)    randNum_R = 255 * brightness / 100;
+  195   5                      }
+  196   4                  }
+  197   3                  break;
+  198   3      
+  199   3      
+  200   3              case test_mode:
+  201   3      
+  202   3                  break;
+  203   3              default:
+  204   3                  break;
+  205   3              }
+  206   2      
+  207   2              //显示
+  208   2              WS2812_Show();
+  209   2          }
+  210   1      }
+  211          
+  212          
+  213          
+  214          void WS2812_setMode(enum WS2812_RunMode modeToSet)
+  215          {
+  216   1          mode = modeToSet;
+  217   1      }
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =      1473     ------
+  code size            =      2085     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
   xdata size           =    ------     ------
   xdata-const size     =    ------     ------
-  edata size           =         3     ------
-  bit size             =    ------     ------
+  edata size           =        94          3
+  bit size             =    ------          1
   ebit size            =    ------     ------
   bitaddressable size  =         3     ------
-C251 COMPILER V5.60.0,  ws2812                                                             25/07/23  22:04:15  PAGE 3   
-
   ebitaddressable size =    ------     ------
   far data size        =    ------     ------
   huge data size       =    ------     ------
   const size           =    ------     ------
-  hconst size          =        30     ------
+  hconst size          =        16     ------
 End of Module Information.
 
 

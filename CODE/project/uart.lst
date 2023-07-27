@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  uart                                                               25/07/23  18:10:09  PAGE 1   
+C251 COMPILER V5.60.0,  uart                                                               27/07/23  09:10:54  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE uart
@@ -13,7 +13,7 @@ stmt  level    source
     3          bit B_TX1_Busy; //发送忙标志
     4          
     5          //========================================================================
-    6          // 函数: void UART1_config(u8 brt)
+    6          // 函数: void UART1_config(unsigned char brt)
     7          // 描述: UART1初始化函数。
     8          // 参数: brt: 选择波特率, 2: 使用Timer2做波特率, 其它值: 使用Timer1做波特率.
     9          // 返回: none.
@@ -27,8 +27,8 @@ stmt  level    source
    17   1          T2R = 0;    //Timer stop
    18   1          T2_CT = 0;  //Timer2 set As Timer
    19   1          T2x12 = 1;  //Timer2 set as 1T mode
-   20   1          T2H = (u8)(Baudrate1 / 256);
-   21   1          T2L = (u8)(Baudrate1 % 256);
+   20   1          T2H = (unsigned char)(Baudrate1 / 256);
+   21   1          T2L = (unsigned char)(Baudrate1 % 256);
    22   1          ET2 = 0;    //禁止中断
    23   1          T2R = 1;    //Timer run enable
    24   1      
@@ -56,57 +56,59 @@ stmt  level    source
    44          //========================================================================
    45          void UART1_int (void) interrupt 4
    46          {
-   47   1          if(RI)
-   48   1          {
-   49   2              RI = 0;
-   50   2              //RX1_Buffer[RX1_Cnt] = SBUF;
-   51   2          }
-   52   1      
-   53   1          if(TI)
-   54   1          {
-   55   2              TI = 0;
-   56   2              B_TX1_Busy = 0;
-C251 COMPILER V5.60.0,  uart                                                               25/07/23  18:10:09  PAGE 2   
+   47   1          unsigned char recieveData;
+   48   1          if(RI)
+   49   1          {
+   50   2              RI = 0;
+   51   2              recieveData = SBUF;
+   52   2              WS2812_setMode(recieveData);
+   53   2          }
+   54   1      
+   55   1          if(TI)
+   56   1          {
+C251 COMPILER V5.60.0,  uart                                                               27/07/23  09:10:54  PAGE 2   
 
-   57   2          }
-   58   1      }
-   59          
-   60          //发送单个字符
-   61          void UART1_Send (unsigned char bat)
-   62          {
-   63   1          SBUF = bat;
-   64   1          B_TX1_Busy = 1;
-   65   1          while(B_TX1_Busy == 1);
-   66   1      }
-   67          
-   68          //========================================================================
-   69          // 函数: void PrintString1(u8 *puts)
-   70          // 描述: 串口1发送字符串函数。
-   71          // 参数: puts:  字符串指针.
-   72          // 返回: none.
-   73          // 版本: VER1.0
-   74          // 日期: 2014-11-28
-   75          // 备注: 
-   76          //========================================================================
-   77          void PrintString1(unsigned char *puts)
-   78          {
-   79   1          for (; *puts != 0;  puts++)     //遇到停止符0结束
-   80   1          {
-   81   2              UART1_Send(*puts);
-   82   2          }
-   83   1      }
-   84          
-   85          //重写putchar函数
-   86          char putchar(char c)
-   87          {
-   88   1        UART1_Send(c);
-   89   1        return c;
-   90   1      }
+   57   2              TI = 0;
+   58   2              B_TX1_Busy = 0;
+   59   2          }
+   60   1      }
+   61          
+   62          //发送单个字符
+   63          void UART1_Send (unsigned char bat)
+   64          {
+   65   1          SBUF = bat;
+   66   1          B_TX1_Busy = 1;
+   67   1          while(B_TX1_Busy == 1);
+   68   1      }
+   69          
+   70          //========================================================================
+   71          // 函数: void PrintString1(unsigned char *puts)
+   72          // 描述: 串口1发送字符串函数。
+   73          // 参数: puts:  字符串指针.
+   74          // 返回: none.
+   75          // 版本: VER1.0
+   76          // 日期: 2014-11-28
+   77          // 备注: 
+   78          //========================================================================
+   79          void PrintString1(unsigned char *puts)
+   80          {
+   81   1          for (; *puts != 0;  puts++)     //遇到停止符0结束
+   82   1          {
+   83   2              UART1_Send(*puts);
+   84   2          }
+   85   1      }
+   86          
+   87          //重写putchar函数
+   88          char putchar(char c)
+   89          {
+   90   1        UART1_Send(c);
+   91   1        return c;
+   92   1      }
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       114     ------
+  code size            =       162     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------

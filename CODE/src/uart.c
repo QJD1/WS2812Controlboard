@@ -3,7 +3,7 @@
 bit B_TX1_Busy; //发送忙标志
 
 //========================================================================
-// 函数: void UART1_config(u8 brt)
+// 函数: void UART1_config(unsigned char brt)
 // 描述: UART1初始化函数。
 // 参数: brt: 选择波特率, 2: 使用Timer2做波特率, 其它值: 使用Timer1做波特率.
 // 返回: none.
@@ -17,8 +17,8 @@ void UART1_config()
     T2R = 0;		//Timer stop
     T2_CT = 0;	//Timer2 set As Timer
     T2x12 = 1;	//Timer2 set as 1T mode
-    T2H = (u8)(Baudrate1 / 256);
-    T2L = (u8)(Baudrate1 % 256);
+    T2H = (unsigned char)(Baudrate1 / 256);
+    T2L = (unsigned char)(Baudrate1 % 256);
     ET2 = 0;    //禁止中断
     T2R = 1;		//Timer run enable
 
@@ -44,10 +44,12 @@ void UART1_config()
 //========================================================================
 void UART1_int (void) interrupt 4
 {
+    unsigned char recieveData;
     if(RI)
     {
         RI = 0;
-        //RX1_Buffer[RX1_Cnt] = SBUF;
+        recieveData = SBUF;
+        WS2812_setMode(recieveData);
     }
 
     if(TI)
@@ -66,7 +68,7 @@ void UART1_Send (unsigned char bat)
 }
 
 //========================================================================
-// 函数: void PrintString1(u8 *puts)
+// 函数: void PrintString1(unsigned char *puts)
 // 描述: 串口1发送字符串函数。
 // 参数: puts:  字符串指针.
 // 返回: none.

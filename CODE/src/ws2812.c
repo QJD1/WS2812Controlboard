@@ -1,6 +1,6 @@
 #include "main.h"
-
-
+#include <stdlib.h>
+#include "math.h"
 
 #define SEND_BIT0 {P51 = 1; NOP8(); P51 = 0; NOP16();}
 #define SEND_BIT1 {P51 = 1; NOP19(); P51 = 0; NOP3();}
@@ -71,40 +71,147 @@ void WS2812_WriteColor(unsigned char green , unsigned char red , unsigned char b
 }
 
 #define WS2812_NUM 30//灯珠数量
+
 enum WS2812_RunMode mode = voiceCtrl_mode;
-unsigned char voiceGrade = 0;
+unsigned char voiceGrade = 0;//音量等级
+unsigned char brightness = 80;//亮度
+unsigned char color_G[WS2812_NUM];
+unsigned char color_R[WS2812_NUM];
+unsigned char color_B[WS2812_NUM];
+
+//显示
+void WS2812_Show()
+{
+    unsigned char i;
+    for ( i = 0; i < WS2812_NUM; i++)
+    {
+        WS2812_WriteColor(color_G[i],color_R[i],color_B[i]);
+    }
+    Delay300us();
+}
 
 void WS2812_RunTask()
 {
     unsigned char i;
+    unsigned char randNum_G,randNum_R,randNum_B;
+    bit firework_busy = 0;
+    unsigned char firework_index = 0;
+
     while(1)
     {
+        //选择模式 ，然后给三个颜色赋值
         switch (mode)
         {
             //关闭模式
         case close_mode:
-            for ( i = 0; i < WS2812_NUM; i++)
+            for(i = 0 ; i<WS2812_NUM ; i++)
             {
-                WS2812_WriteColor(0,0,0);
+                color_G[i] = 0;
+                color_R[i] = 0;
+                color_B[i] = 0;
             }
-            Delay300us();
             break;
 
             //声控模式
         case voiceCtrl_mode:
-            voiceGrade = Get_ADC12bitResult(0)/(2100/WS2812_NUM);
+            voiceGrade = Get_ADC12bitResult(0)/(2300/WS2812_NUM);
             if(voiceGrade > WS2812_NUM) voiceGrade = WS2812_NUM;
+            //随机颜色
+            srand(Get_ADC12bitResult(0));
+            randNum_G = ((rand()*rand())/256) * brightness / 100;
+
+            srand(10*sin(Get_ADC12bitResult(0))+10);
+            randNum_R = ((rand()*rand())/256) * brightness / 100;
+
+            srand(10*cos(Get_ADC12bitResult(0))+10);
+            randNum_B = ((rand()*rand())/256) * brightness / 100;
+
             for ( i = 0; i < WS2812_NUM; i++)
             {
-                if(i<voiceGrade)    WS2812_WriteColor(0xff,0,0);
-                else WS2812_WriteColor(0,0,0);
+                if(i<voiceGrade) 
+                {
+                    color_G[i] = randNum_G;
+                    color_R[i] = randNum_R;
+                    color_B[i] = randNum_B;
+                }   
+                else 
+                {
+                    color_G[i] = 0;
+                    color_R[i] = 0;
+                    color_B[i] = 0;
+                }
             }
-            
-			printf("grade:%d  adc:%d\r\n",voiceGrade,Get_ADC12bitResult(0));	
-            Delay300us();
+            //printf("G:%d R:%d B:%d\r\n",randNum_G,randNum_R,randNum_B);
+			//printf("grade:%d  adc:%d\r\n",voiceGrade,Get_ADC12bitResult(0));	
+            break;
+        
+        //烟花模式
+        case firework_mode:
+            if(firework_busy)
+            {
+                if(firework_index <= WS2812_NUM+(WS2812_NUM/3))
+                {
+                    for ( i = 0; i < WS2812_NUM; i++)
+                    {
+                        if(i>=firework_index && i<(firework_index+(WS2812_NUM/3)) )
+                        {
+                            color_G[i] = randNum_G;
+                            color_R[i] = randNum_R;
+                            color_B[i] = randNum_B;
+                        }   
+                        else 
+                        {
+                            color_G[i] = 0;
+                            color_R[i] = 0;
+                            color_B[i] = 0;
+                        }
+                    }
+                    firework_index++;
+                    Delay_ms(50);
+                }
+                else 
+                {
+                    firework_busy = 0;
+                }
+            }
+            else 
+            {
+                voiceGrade = Get_ADC12bitResult(0)/(2300/WS2812_NUM);
+                if(voiceGrade >= WS2812_NUM - (WS2812_NUM/3))
+                {
+                    firework_busy = 1;
+                    firework_index = 0;
+                    //随机颜色
+                    srand(Get_ADC12bitResult(0));
+                    randNum_G = ((rand()*rand())/256) * brightness / 100;
+
+                    srand(10*sin(Get_ADC12bitResult(0))+10);
+                    randNum_R = ((rand()*rand())/256) * brightness / 100;
+
+                    srand(10*cos(Get_ADC12bitResult(0))+10);
+                    randNum_B = ((rand()*rand())/256) * brightness / 100;
+
+                    if(randNum_G == randNum_R == randNum_B == 0)    randNum_R = 255 * brightness / 100;
+                }
+            }
+            break;
+
+
+        case test_mode:
+
             break;
         default:
             break;
         }
+
+        //显示
+        WS2812_Show();
     }
+}
+
+
+
+void WS2812_setMode(enum WS2812_RunMode modeToSet)
+{
+    mode = modeToSet;
 }

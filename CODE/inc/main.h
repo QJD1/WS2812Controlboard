@@ -11,9 +11,6 @@
 #define MAIN_Fosc        22118400L   //定义主时钟（精确计算115200波特率）
 #define Baudrate1   (65536 - MAIN_Fosc / 115200 / 4)
 
-typedef 	unsigned char	u8;
-typedef 	unsigned int	u16;
-typedef 	unsigned long	u32;
 
 void SYS_Init();
 void Delay_ms(unsigned int xms);		//@22.1184MHz
