@@ -49,7 +49,8 @@ void UART1_int (void) interrupt 4
     {
         RI = 0;
         recieveData = SBUF;
-        WS2812_setMode(recieveData);
+        if(recieveData<10) WS2812_setMode(recieveData);
+        else WS2812_setBrighness(recieveData);
     }
 
     if(TI)

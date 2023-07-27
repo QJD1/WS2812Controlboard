@@ -72,12 +72,29 @@ void WS2812_WriteColor(unsigned char green , unsigned char red , unsigned char b
 
 #define WS2812_NUM 30//灯珠数量
 
-enum WS2812_RunMode mode = voiceCtrl_mode;
+enum WS2812_RunMode mode = close_mode;
 unsigned char voiceGrade = 0;//音量等级
-unsigned char brightness = 80;//亮度
+unsigned char brightness = 50;//亮度
 unsigned char color_G[WS2812_NUM];
 unsigned char color_R[WS2812_NUM];
 unsigned char color_B[WS2812_NUM];
+unsigned char i;
+unsigned char randNum_G,randNum_R,randNum_B;
+
+bit firework_busy = 0;
+unsigned char firework_index = 0;
+
+unsigned char warterfull_index = 1;
+
+unsigned int gradient_index = 0;
+unsigned char gradientPhase_G = 0;
+unsigned char gradientPhase_R = 0;
+unsigned char gradientPhase_B = 0;
+unsigned char gradientColor_G = 0;
+unsigned char gradientColor_R = 0;
+unsigned char gradientColor_B = 0;
+
+unsigned char srand_seed = 0;
 
 //显示
 void WS2812_Show()
@@ -92,16 +109,22 @@ void WS2812_Show()
 
 void WS2812_RunTask()
 {
-    unsigned char i;
-    unsigned char randNum_G,randNum_R,randNum_B;
-    bit firework_busy = 0;
-    unsigned char firework_index = 0;
-
     while(1)
     {
+        //随机颜色
+        srand(Get_ADC12bitResult(0) + firework_index + warterfull_index + gradient_index + srand_seed);
+        randNum_G = ((rand()*rand())%256) * brightness / 100;
+
+        srand(100*sin(Get_ADC12bitResult(0) + firework_index + warterfull_index + gradient_index + srand_seed)+100);
+        randNum_R = ((rand()*rand())%256) * brightness / 100;
+
+        srand(100*cos(Get_ADC12bitResult(0) + firework_index + warterfull_index + gradient_index + srand_seed)+100);
+        randNum_B = ((rand()*rand())%256) * brightness / 100;
+
         //选择模式 ，然后给三个颜色赋值
         switch (mode)
         {
+
             //关闭模式
         case close_mode:
             for(i = 0 ; i<WS2812_NUM ; i++)
@@ -116,15 +139,7 @@ void WS2812_RunTask()
         case voiceCtrl_mode:
             voiceGrade = Get_ADC12bitResult(0)/(2300/WS2812_NUM);
             if(voiceGrade > WS2812_NUM) voiceGrade = WS2812_NUM;
-            //随机颜色
-            srand(Get_ADC12bitResult(0));
-            randNum_G = ((rand()*rand())/256) * brightness / 100;
 
-            srand(10*sin(Get_ADC12bitResult(0))+10);
-            randNum_R = ((rand()*rand())/256) * brightness / 100;
-
-            srand(10*cos(Get_ADC12bitResult(0))+10);
-            randNum_B = ((rand()*rand())/256) * brightness / 100;
 
             for ( i = 0; i < WS2812_NUM; i++)
             {
@@ -181,21 +196,111 @@ void WS2812_RunTask()
                 {
                     firework_busy = 1;
                     firework_index = 0;
-                    //随机颜色
-                    srand(Get_ADC12bitResult(0));
-                    randNum_G = ((rand()*rand())/256) * brightness / 100;
-
-                    srand(10*sin(Get_ADC12bitResult(0))+10);
-                    randNum_R = ((rand()*rand())/256) * brightness / 100;
-
-                    srand(10*cos(Get_ADC12bitResult(0))+10);
-                    randNum_B = ((rand()*rand())/256) * brightness / 100;
-
                     if(randNum_G == randNum_R == randNum_B == 0)    randNum_R = 255 * brightness / 100;
                 }
             }
             break;
 
+        case warterfull_mode1:   
+            for(i = 0; i<WS2812_NUM ;i++)
+            {
+                if(i<warterfull_index)
+                {
+                    color_G[i] = randNum_G;
+                    color_R[i] = randNum_R;
+                    color_B[i] = randNum_B;
+                }
+                else
+                {
+                    color_G[i] = 0;
+                    color_R[i] = 0;
+                    color_B[i] = 0;
+                }
+            }
+            warterfull_index++;
+            if(warterfull_index > WS2812_NUM) warterfull_index = 1;
+            Delay_ms(100);
+
+            break;
+
+        case warterfull_mode2:   
+            for(i = 0; i<WS2812_NUM ;i++)
+            {
+                if(i<warterfull_index)
+                {
+                    color_G[i] = randNum_G;
+                    color_R[i] = randNum_R;
+                    color_B[i] = randNum_B;
+                }
+            }
+            warterfull_index++;
+            if(warterfull_index > WS2812_NUM) warterfull_index = 1;
+            Delay_ms(100);
+
+            break;
+
+        case warterfull_mode3: 
+            if(gradient_index == 0)//获取随机相位
+            {
+                gradientPhase_G = randNum_G;
+                gradientPhase_R = randNum_R;
+                gradientPhase_B = randNum_B;
+            }
+            gradientColor_G = (128*sin(0.0125*(gradient_index+gradientPhase_G))+128) * brightness/100;
+            gradientColor_R = (128*sin(0.0125*(gradient_index+gradientPhase_R))+128) * brightness/100;
+            gradientColor_B = (128*sin(0.0125*(gradient_index+gradientPhase_B))+128) * brightness/100;
+            for(i = 0; i<WS2812_NUM ;i++)
+            {
+                if(i<warterfull_index)
+                {
+                    color_G[i] = gradientColor_G;
+                    color_R[i] = gradientColor_R;
+                    color_B[i] = gradientColor_B;
+                }
+                else
+                {
+                    color_G[i] = 0;
+                    color_R[i] = 0;
+                    color_B[i] = 0;
+                }
+            }
+            gradient_index++;
+            if(gradient_index == 500)
+            {
+                gradient_index = 1;
+                warterfull_index++;
+                if(warterfull_index > WS2812_NUM) 
+                {
+                    warterfull_index = 1;
+                    gradient_index = 0;
+                }
+                
+            }
+            Delay_ms(1);
+            break;
+
+        case gradient_mode:
+            if(gradient_index == 0)//获取随机相位
+            {
+                gradientPhase_G = randNum_G;
+                gradientPhase_R = randNum_R;
+                gradientPhase_B = randNum_B;
+            }
+            gradientColor_G = (128*sin(0.0125*(gradient_index+gradientPhase_G))+128) * brightness/100;
+            gradientColor_R = (128*sin(0.0125*(gradient_index+gradientPhase_R))+128) * brightness/100;
+            gradientColor_B = (128*sin(0.0125*(gradient_index+gradientPhase_B))+128) * brightness/100;
+            for(i = 0; i<WS2812_NUM ;i++)
+            {
+                color_G[i] = gradientColor_G;
+                color_R[i] = gradientColor_R;
+                color_B[i] = gradientColor_B;
+            }
+            gradient_index++;
+            if(gradient_index == 500)   gradient_index = 0;
+            Delay_ms(1);
+
+            
+            break;
 
         case test_mode:
 
@@ -206,6 +311,7 @@ void WS2812_RunTask()
 
         //显示
         WS2812_Show();
+        srand_seed++;
     }
 }
 
@@ -214,4 +320,11 @@ void WS2812_RunTask()
 void WS2812_setMode(enum WS2812_RunMode modeToSet)
 {
     mode = modeToSet;
+}
+
+void WS2812_setBrighness(unsigned char brightnessToSet)
+{
+    if(brightnessToSet<=100)
+        brightness = brightnessToSet;
+    else    brightness = 100;
 }

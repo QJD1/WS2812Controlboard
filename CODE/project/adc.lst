@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  adc                                                                27/07/23  09:08:22  PAGE 1   
+C251 COMPILER V5.60.0,  adc                                                                27/07/23  10:53:50  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE adc
@@ -66,7 +66,7 @@ stmt  level    source
    52          //  j = j / SUM_LENGTH;   // 求平均
    53          
    54          //  if(chn == 15) printf("Bandgap=%04d  ",j); //内基准 1.19V
-C251 COMPILER V5.60.0,  adc                                                                27/07/23  09:08:22  PAGE 2   
+C251 COMPILER V5.60.0,  adc                                                                27/07/23  10:53:50  PAGE 2   
 
    55          //  else    //ADC0~ADC14
    56          //  {

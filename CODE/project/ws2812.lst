@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  ws2812                                                             27/07/23  09:10:54  PAGE 1   
+C251 COMPILER V5.60.0,  ws2812                                                             27/07/23  11:42:22  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE ws2812
@@ -66,7 +66,7 @@ stmt  level    source
    56   1          if(red_dat_bit4){SEND_BIT1}else{SEND_BIT0};
    57   1          if(red_dat_bit3){SEND_BIT1}else{SEND_BIT0};
    58   1          if(red_dat_bit2){SEND_BIT1}else{SEND_BIT0};
-C251 COMPILER V5.60.0,  ws2812                                                             27/07/23  09:10:54  PAGE 2   
+C251 COMPILER V5.60.0,  ws2812                                                             27/07/23  11:42:22  PAGE 2   
 
    59   1          if(red_dat_bit1){SEND_BIT1}else{SEND_BIT0};
    60   1        if(red_dat_bit0){SEND_BIT1}else{SEND_BIT0};
@@ -84,173 +84,292 @@ stmt  level    source
    72          
    73          #define WS2812_NUM 30//灯珠数量
    74          
-   75          enum WS2812_RunMode mode = voiceCtrl_mode;
+   75          enum WS2812_RunMode mode = close_mode;
    76          unsigned char voiceGrade = 0;//音量等级
-   77          unsigned char brightness = 80;//亮度
+   77          unsigned char brightness = 50;//亮度
    78          unsigned char color_G[WS2812_NUM];
    79          unsigned char color_R[WS2812_NUM];
    80          unsigned char color_B[WS2812_NUM];
-   81          
-   82          //显示
-   83          void WS2812_Show()
-   84          {
-   85   1          unsigned char i;
-   86   1          for ( i = 0; i < WS2812_NUM; i++)
-   87   1          {
-   88   2              WS2812_WriteColor(color_G[i],color_R[i],color_B[i]);
-   89   2          }
-   90   1          Delay300us();
-   91   1      }
-   92          
-   93          void WS2812_RunTask()
-   94          {
-   95   1          unsigned char i;
-   96   1          unsigned char randNum_G,randNum_R,randNum_B;
-   97   1          bit firework_busy = 0;
-   98   1          unsigned char firework_index = 0;
-   99   1      
-  100   1          while(1)
-  101   1          {
-  102   2              //选择模式 ，然后给三个颜色赋值
-  103   2              switch (mode)
-  104   2              {
-  105   3                  //关闭模式
-  106   3              case close_mode:
-  107   3                  for(i = 0 ; i<WS2812_NUM ; i++)
-  108   3                  {
-  109   4                      color_G[i] = 0;
-  110   4                      color_R[i] = 0;
-  111   4                      color_B[i] = 0;
-  112   4                  }
-  113   3                  break;
-  114   3      
-  115   3                  //声控模式
-  116   3              case voiceCtrl_mode:
-  117   3                  voiceGrade = Get_ADC12bitResult(0)/(2300/WS2812_NUM);
-  118   3                  if(voiceGrade > WS2812_NUM) voiceGrade = WS2812_NUM;
-  119   3                  //随机颜色
-  120   3                  srand(Get_ADC12bitResult(0));
-  121   3                  randNum_G = ((rand()*rand())/256) * brightness / 100;
-  122   3      
-  123   3                  srand(10*sin(Get_ADC12bitResult(0))+10);
-  124   3                  randNum_R = ((rand()*rand())/256) * brightness / 100;
-C251 COMPILER V5.60.0,  ws2812                                                             27/07/23  09:10:54  PAGE 3   
+   81          unsigned char i;
+   82          unsigned char randNum_G,randNum_R,randNum_B;
+   83          
+   84          bit firework_busy = 0;
+   85          unsigned char firework_index = 0;
+   86          
+   87          unsigned char warterfull_index = 1;
+   88          
+   89          unsigned int gradient_index = 0;
+   90          unsigned char gradientPhase_G = 0;
+   91          unsigned char gradientPhase_R = 0;
+   92          unsigned char gradientPhase_B = 0;
+   93          unsigned char gradientColor_G = 0;
+   94          unsigned char gradientColor_R = 0;
+   95          unsigned char gradientColor_B = 0;
+   96          
+   97          unsigned char srand_seed = 0;
+   98          
+   99          //显示
+  100          void WS2812_Show()
+  101          {
+  102   1          unsigned char i;
+  103   1          for ( i = 0; i < WS2812_NUM; i++)
+  104   1          {
+  105   2              WS2812_WriteColor(color_G[i],color_R[i],color_B[i]);
+  106   2          }
+  107   1          Delay300us();
+  108   1      }
+  109          
+  110          void WS2812_RunTask()
+  111          {
+  112   1          while(1)
+  113   1          {
+  114   2              //随机颜色
+  115   2              srand(Get_ADC12bitResult(0) + firework_index + warterfull_index + gradient_index + srand_seed);
+  116   2              randNum_G = ((rand()*rand())%256) * brightness / 100;
+  117   2      
+  118   2              srand(100*sin(Get_ADC12bitResult(0) + firework_index + warterfull_index + gradient_index + srand_
+             -seed)+100);
+  119   2              randNum_R = ((rand()*rand())%256) * brightness / 100;
+  120   2      
+  121   2              srand(100*cos(Get_ADC12bitResult(0) + firework_index + warterfull_index + gradient_index + srand_
+             -seed)+100);
+  122   2              randNum_B = ((rand()*rand())%256) * brightness / 100;
+C251 COMPILER V5.60.0,  ws2812                                                             27/07/23  11:42:22  PAGE 3   
 
-  125   3      
-  126   3                  srand(10*cos(Get_ADC12bitResult(0))+10);
-  127   3                  randNum_B = ((rand()*rand())/256) * brightness / 100;
-  128   3      
-  129   3                  for ( i = 0; i < WS2812_NUM; i++)
-  130   3                  {
-  131   4                      if(i<voiceGrade) 
-  132   4                      {
-  133   5                          color_G[i] = randNum_G;
-  134   5                          color_R[i] = randNum_R;
-  135   5                          color_B[i] = randNum_B;
-  136   5                      }   
-  137   4                      else 
-  138   4                      {
-  139   5                          color_G[i] = 0;
-  140   5                          color_R[i] = 0;
-  141   5                          color_B[i] = 0;
-  142   5                      }
-  143   4                  }
-  144   3                  //printf("G:%d R:%d B:%d\r\n",randNum_G,randNum_R,randNum_B);
-  145   3            //printf("grade:%d  adc:%d\r\n",voiceGrade,Get_ADC12bitResult(0));  
-  146   3                  break;
-  147   3              
-  148   3              //烟花模式
-  149   3              case firework_mode:
-  150   3                  if(firework_busy)
-  151   3                  {
-  152   4                      if(firework_index <= WS2812_NUM+(WS2812_NUM/3))
+  123   2      
+  124   2              //选择模式 ，然后给三个颜色赋值
+  125   2              switch (mode)
+  126   2              {
+  127   3      
+  128   3                  //关闭模式
+  129   3              case close_mode:
+  130   3                  for(i = 0 ; i<WS2812_NUM ; i++)
+  131   3                  {
+  132   4                      color_G[i] = 0;
+  133   4                      color_R[i] = 0;
+  134   4                      color_B[i] = 0;
+  135   4                  }
+  136   3                  break;
+  137   3      
+  138   3                  //声控模式
+  139   3              case voiceCtrl_mode:
+  140   3                  voiceGrade = Get_ADC12bitResult(0)/(2300/WS2812_NUM);
+  141   3                  if(voiceGrade > WS2812_NUM) voiceGrade = WS2812_NUM;
+  142   3      
+  143   3      
+  144   3                  for ( i = 0; i < WS2812_NUM; i++)
+  145   3                  {
+  146   4                      if(i<voiceGrade) 
+  147   4                      {
+  148   5                          color_G[i] = randNum_G;
+  149   5                          color_R[i] = randNum_R;
+  150   5                          color_B[i] = randNum_B;
+  151   5                      }   
+  152   4                      else 
   153   4                      {
-  154   5                          for ( i = 0; i < WS2812_NUM; i++)
-  155   5                          {
-  156   6                              if(i>=firework_index && i<(firework_index+(WS2812_NUM/3)) )
-  157   6                              {
-  158   7                                  color_G[i] = randNum_G;
-  159   7                                  color_R[i] = randNum_R;
-  160   7                                  color_B[i] = randNum_B;
-  161   7                              }   
-  162   6                              else 
-  163   6                              {
-  164   7                                  color_G[i] = 0;
-  165   7                                  color_R[i] = 0;
-  166   7                                  color_B[i] = 0;
-  167   7                              }
-  168   6                          }
-  169   5                          firework_index++;
-  170   5                          Delay_ms(50);
-  171   5                      }
-  172   4                      else 
-  173   4                      {
-  174   5                          firework_busy = 0;
-  175   5                      }
-  176   4                  }
-  177   3                  else 
-  178   3                  {
-  179   4                      voiceGrade = Get_ADC12bitResult(0)/(2300/WS2812_NUM);
-  180   4                      if(voiceGrade >= WS2812_NUM - (WS2812_NUM/3))
-  181   4                      {
-  182   5                          firework_busy = 1;
-  183   5                          firework_index = 0;
-  184   5                          //随机颜色
-  185   5                          srand(Get_ADC12bitResult(0));
-  186   5                          randNum_G = ((rand()*rand())/256) * brightness / 100;
-  187   5      
-  188   5                          srand(10*sin(Get_ADC12bitResult(0))+10);
-  189   5                          randNum_R = ((rand()*rand())/256) * brightness / 100;
-  190   5      
-C251 COMPILER V5.60.0,  ws2812                                                             27/07/23  09:10:54  PAGE 4   
+  154   5                          color_G[i] = 0;
+  155   5                          color_R[i] = 0;
+  156   5                          color_B[i] = 0;
+  157   5                      }
+  158   4                  }
+  159   3                  //printf("G:%d R:%d B:%d\r\n",randNum_G,randNum_R,randNum_B);
+  160   3            //printf("grade:%d  adc:%d\r\n",voiceGrade,Get_ADC12bitResult(0));  
+  161   3                  break;
+  162   3              
+  163   3              //烟花模式
+  164   3              case firework_mode:
+  165   3                  if(firework_busy)
+  166   3                  {
+  167   4                      if(firework_index <= WS2812_NUM+(WS2812_NUM/3))
+  168   4                      {
+  169   5                          for ( i = 0; i < WS2812_NUM; i++)
+  170   5                          {
+  171   6                              if(i>=firework_index && i<(firework_index+(WS2812_NUM/3)) )
+  172   6                              {
+  173   7                                  color_G[i] = randNum_G;
+  174   7                                  color_R[i] = randNum_R;
+  175   7                                  color_B[i] = randNum_B;
+  176   7                              }   
+  177   6                              else 
+  178   6                              {
+  179   7                                  color_G[i] = 0;
+  180   7                                  color_R[i] = 0;
+  181   7                                  color_B[i] = 0;
+  182   7                              }
+  183   6                          }
+  184   5                          firework_index++;
+  185   5                          Delay_ms(50);
+  186   5                      }
+  187   4                      else 
+  188   4                      {
+C251 COMPILER V5.60.0,  ws2812                                                             27/07/23  11:42:22  PAGE 4   
 
-  191   5                          srand(10*cos(Get_ADC12bitResult(0))+10);
-  192   5                          randNum_B = ((rand()*rand())/256) * brightness / 100;
-  193   5      
-  194   5                          if(randNum_G == randNum_R == randNum_B == 0)    randNum_R = 255 * brightness / 100;
-  195   5                      }
-  196   4                  }
-  197   3                  break;
-  198   3      
-  199   3      
-  200   3              case test_mode:
-  201   3      
+  189   5                          firework_busy = 0;
+  190   5                      }
+  191   4                  }
+  192   3                  else 
+  193   3                  {
+  194   4                      voiceGrade = Get_ADC12bitResult(0)/(2300/WS2812_NUM);
+  195   4                      if(voiceGrade >= WS2812_NUM - (WS2812_NUM/3))
+  196   4                      {
+  197   5                          firework_busy = 1;
+  198   5                          firework_index = 0;
+  199   5                          if(randNum_G == randNum_R == randNum_B == 0)    randNum_R = 255 * brightness / 100;
+  200   5                      }
+  201   4                  }
   202   3                  break;
-  203   3              default:
-  204   3                  break;
-  205   3              }
-  206   2      
-  207   2              //显示
-  208   2              WS2812_Show();
-  209   2          }
-  210   1      }
-  211          
-  212          
-  213          
-  214          void WS2812_setMode(enum WS2812_RunMode modeToSet)
-  215          {
-  216   1          mode = modeToSet;
-  217   1      }
+  203   3      
+  204   3              case warterfull_mode1:   
+  205   3                  for(i = 0; i<WS2812_NUM ;i++)
+  206   3                  {
+  207   4                      if(i<warterfull_index)
+  208   4                      {
+  209   5                          color_G[i] = randNum_G;
+  210   5                          color_R[i] = randNum_R;
+  211   5                          color_B[i] = randNum_B;
+  212   5                      }
+  213   4                      else
+  214   4                      {
+  215   5                          color_G[i] = 0;
+  216   5                          color_R[i] = 0;
+  217   5                          color_B[i] = 0;
+  218   5                      }
+  219   4                  }
+  220   3                  warterfull_index++;
+  221   3                  if(warterfull_index > WS2812_NUM) warterfull_index = 1;
+  222   3                  Delay_ms(100);
+  223   3      
+  224   3                  break;
+  225   3      
+  226   3              case warterfull_mode2:   
+  227   3                  for(i = 0; i<WS2812_NUM ;i++)
+  228   3                  {
+  229   4                      if(i<warterfull_index)
+  230   4                      {
+  231   5                          color_G[i] = randNum_G;
+  232   5                          color_R[i] = randNum_R;
+  233   5                          color_B[i] = randNum_B;
+  234   5                      }
+  235   4                  }
+  236   3                  warterfull_index++;
+  237   3                  if(warterfull_index > WS2812_NUM) warterfull_index = 1;
+  238   3                  Delay_ms(100);
+  239   3      
+  240   3                  break;
+  241   3      
+  242   3              case warterfull_mode3: 
+  243   3                  if(gradient_index == 0)//获取随机相位
+  244   3                  {
+  245   4                      gradientPhase_G = randNum_G;
+  246   4                      gradientPhase_R = randNum_R;
+  247   4                      gradientPhase_B = randNum_B;
+  248   4                  }
+  249   3                  gradientColor_G = (128*sin(0.0125*(gradient_index+gradientPhase_G))+128) * brightness/100;
+  250   3                  gradientColor_R = (128*sin(0.0125*(gradient_index+gradientPhase_R))+128) * brightness/100;
+  251   3                  gradientColor_B = (128*sin(0.0125*(gradient_index+gradientPhase_B))+128) * brightness/100;
+  252   3                  for(i = 0; i<WS2812_NUM ;i++)
+  253   3                  {
+  254   4                      if(i<warterfull_index)
+C251 COMPILER V5.60.0,  ws2812                                                             27/07/23  11:42:22  PAGE 5   
+
+  255   4                      {
+  256   5                          color_G[i] = gradientColor_G;
+  257   5                          color_R[i] = gradientColor_R;
+  258   5                          color_B[i] = gradientColor_B;
+  259   5                      }
+  260   4                      else
+  261   4                      {
+  262   5                          color_G[i] = 0;
+  263   5                          color_R[i] = 0;
+  264   5                          color_B[i] = 0;
+  265   5                      }
+  266   4                  }
+  267   3                  gradient_index++;
+  268   3                  if(gradient_index == 500)
+  269   3                  {
+  270   4                      gradient_index = 1;
+  271   4                      warterfull_index++;
+  272   4                      if(warterfull_index > WS2812_NUM) 
+  273   4                      {
+  274   5                          warterfull_index = 1;
+  275   5                          gradient_index = 0;
+  276   5                      }
+  277   4                      
+  278   4                  }
+  279   3                  Delay_ms(1);
+  280   3                  break;
+  281   3      
+  282   3              case gradient_mode:
+  283   3                  if(gradient_index == 0)//获取随机相位
+  284   3                  {
+  285   4                      gradientPhase_G = randNum_G;
+  286   4                      gradientPhase_R = randNum_R;
+  287   4                      gradientPhase_B = randNum_B;
+  288   4                  }
+  289   3                  gradientColor_G = (128*sin(0.0125*(gradient_index+gradientPhase_G))+128) * brightness/100;
+  290   3                  gradientColor_R = (128*sin(0.0125*(gradient_index+gradientPhase_R))+128) * brightness/100;
+  291   3                  gradientColor_B = (128*sin(0.0125*(gradient_index+gradientPhase_B))+128) * brightness/100;
+  292   3                  for(i = 0; i<WS2812_NUM ;i++)
+  293   3                  {
+  294   4                      color_G[i] = gradientColor_G;
+  295   4                      color_R[i] = gradientColor_R;
+  296   4                      color_B[i] = gradientColor_B;
+  297   4                  }
+  298   3                  gradient_index++;
+  299   3                  if(gradient_index == 500)   gradient_index = 0;
+  300   3                  Delay_ms(1);
+  301   3      
+  302   3                  
+  303   3                  break;
+  304   3      
+  305   3              case test_mode:
+  306   3      
+  307   3                  break;
+  308   3              default:
+  309   3                  break;
+  310   3              }
+  311   2      
+  312   2              //显示
+  313   2              WS2812_Show();
+  314   2              srand_seed++;
+  315   2          }
+  316   1      }
+  317          
+  318          
+  319          
+  320          void WS2812_setMode(enum WS2812_RunMode modeToSet)
+C251 COMPILER V5.60.0,  ws2812                                                             27/07/23  11:42:22  PAGE 6   
+
+  321          {
+  322   1          mode = modeToSet;
+  323   1      }
+  324          
+  325          void WS2812_setBrighness(unsigned char brightnessToSet)
+  326          {
+  327   1          if(brightnessToSet<=100)
+  328   1              brightness = brightnessToSet;
+  329   1          else    brightness = 100;
+  330   1      }
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =      2085     ------
+  code size            =      3035     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
   xdata size           =    ------     ------
   xdata-const size     =    ------     ------
-  edata size           =        94          3
-  bit size             =    ------          1
+  edata size           =       109     ------
+  bit size             =         1     ------
   ebit size            =    ------     ------
   bitaddressable size  =         3     ------
   ebitaddressable size =    ------     ------
   far data size        =    ------     ------
   huge data size       =    ------     ------
   const size           =    ------     ------
-  hconst size          =        16     ------
+  hconst size          =        67     ------
 End of Module Information.
 
 
