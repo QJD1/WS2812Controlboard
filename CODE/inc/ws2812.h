@@ -12,6 +12,8 @@ typedef enum WS2812_RunMode
     warterfull_mode2,
     warterfull_mode3,
     gradient_mode,
+    rainbow_mode,
+    rainbowRoll_mode,
     test_mode
 };
 

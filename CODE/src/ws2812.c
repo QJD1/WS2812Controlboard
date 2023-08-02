@@ -96,6 +96,9 @@ unsigned char gradientColor_B = 0;
 
 unsigned char srand_seed = 0;
 
+unsigned char rainbowRoll_index = 0;
+unsigned char temp_R ,temp_G,temp_B;
+
 //œ‘ æ
 void WS2812_Show()
 {
@@ -302,12 +305,141 @@ void WS2812_RunTask()
             
             break;
 
+        case rainbow_mode:
+            for(i = 0; i<WS2812_NUM ;i++)
+            {
+                if(i<(int)(WS2812_NUM/7))
+                {
+                    color_R[i] = 255 * brightness/100;
+                    color_G[i] = (165 / (int)(WS2812_NUM / 7)) * i* brightness/100;
+                    color_B[i] = 0;
+                }
+                else if (i<2*(int)(WS2812_NUM/7))
+                {
+                    color_R[i] = 255 * brightness/100;
+                    color_G[i] = (165 + (((255-165) / (int)(WS2812_NUM / 7)) * (i - (WS2812_NUM/7))))* brightness/100;
+                    color_B[i] = 0;
+                }
+                else if (i<3*(int)(WS2812_NUM/7))
+                {
+                    color_R[i] = (255 - ((255/(int)(WS2812_NUM / 7)) * (i - 2*(WS2812_NUM/7)))) * brightness/100;
+                    color_G[i] = 255 * brightness/100;
+                    color_B[i] = 0;
+                }
+                else if (i<4*(int)(WS2812_NUM/7))
+                {
+                    color_R[i] = 0;
+                    color_G[i] = 255 * brightness/100;
+                    color_B[i] = ( 255 / (int)(WS2812_NUM / 7) * (i - 3*(WS2812_NUM/7))) * brightness/100;
+                }
+                else if (i<5*(int)(WS2812_NUM/7))
+                {
+                    color_R[i] = 0;
+                    color_G[i] = (255 - ((255/(int)(WS2812_NUM / 7)) * (i - 4*(WS2812_NUM/7)))) * brightness/100;
+                    color_B[i] = 255 * brightness/100;
+                } 
+                else if (i<6*(int)(WS2812_NUM/7))
+                {
+                    color_R[i] = ( 139 / (int)(WS2812_NUM / 7) * (i - 5*(WS2812_NUM/7))) * brightness/100;
+                    color_G[i] = 0;
+                    color_B[i] = 255 * brightness/100;
+                } 
+                else if (i<WS2812_NUM)
+                {
+                    color_R[i] = (139 + (((255-139) / (WS2812_NUM - 6*(int)(WS2812_NUM / 7))) * (1+i - 6*(WS2812_NUM/7))))* brightness/100;
+                    color_G[i] = 0;
+                    color_B[i] = (255 - ((255/(WS2812_NUM - 6*(int)(WS2812_NUM / 7))) * (1+i - 6*(WS2812_NUM/7)))) * brightness/100;
+                } 
+                else
+                {
+                    color_R[i] = 0;
+                    color_G[i] = 0;
+                    color_B[i] = 0;
+                }
+            }
+            break;
+        case rainbowRoll_mode:
+            if(rainbowRoll_index == 0)
+            {
+                for(i = 0; i<WS2812_NUM ;i++)
+                {
+                    if(i<(int)(WS2812_NUM/7))
+                    {
+                        color_R[i] = 255 * brightness/100;
+                        color_G[i] = (165 / (int)(WS2812_NUM / 7)) * i* brightness/100;
+                        color_B[i] = 0;
+                    }
+                    else if (i<2*(int)(WS2812_NUM/7))
+                    {
+                        color_R[i] = 255 * brightness/100;
+                        color_G[i] = (165 + (((255-165) / (int)(WS2812_NUM / 7)) * (i - (WS2812_NUM/7))))* brightness/100;
+                        color_B[i] = 0;
+                    }
+                    else if (i<3*(int)(WS2812_NUM/7))
+                    {
+                        color_R[i] = (255 - ((255/(int)(WS2812_NUM / 7)) * (i - 2*(WS2812_NUM/7)))) * brightness/100;
+                        color_G[i] = 255 * brightness/100;
+                        color_B[i] = 0;
+                    }
+                    else if (i<4*(int)(WS2812_NUM/7))
+                    {
+                        color_R[i] = 0;
+                        color_G[i] = 255 * brightness/100;
+                        color_B[i] = ( 255 / (int)(WS2812_NUM / 7) * (i - 3*(WS2812_NUM/7))) * brightness/100;
+                    }
+                    else if (i<5*(int)(WS2812_NUM/7))
+                    {
+                        color_R[i] = 0;
+                        color_G[i] = (255 - ((255/(int)(WS2812_NUM / 7)) * (i - 4*(WS2812_NUM/7)))) * brightness/100;
+                        color_B[i] = 255 * brightness/100;
+                    } 
+                    else if (i<6*(int)(WS2812_NUM/7))
+                    {
+                        color_R[i] = ( 139 / (int)(WS2812_NUM / 7) * (i - 5*(WS2812_NUM/7))) * brightness/100;
+                        color_G[i] = 0;
+                        color_B[i] = 255 * brightness/100;
+                    } 
+                    else if (i<WS2812_NUM)
+                    {
+                        color_R[i] = (139 + (((255-139) / (WS2812_NUM - 6*(int)(WS2812_NUM / 7))) * (1+i - 6*(WS2812_NUM/7))))* brightness/100;
+                        color_G[i] = 0;
+                        color_B[i] = (255 - ((255/(WS2812_NUM - 6*(int)(WS2812_NUM / 7))) * (1+i - 6*(WS2812_NUM/7)))) * brightness/100;
+                    } 
+                    else
+                    {
+                        color_R[i] = 0;
+                        color_G[i] = 0;
+                        color_B[i] = 0;
+                    }
+                }
+                rainbowRoll_index++;
+            }
+            else 
+            {
+                temp_R = color_R[0];
+                temp_G = color_G[0];
+                temp_B = color_B[0];
+                for(i = 1; i<WS2812_NUM ; i++)
+                {
+                    color_R[i-1] = color_R[i];
+                    color_G[i-1] = color_G[i];
+                    color_B[i-1] = color_B[i];
+                }
+                color_R[WS2812_NUM - 1] = temp_R;
+                color_G[WS2812_NUM - 1] = temp_G;
+                color_B[WS2812_NUM - 1] = temp_B;
+            }
+            Delay_ms(50);
+            break;
+
         case test_mode:
 
             break;
         default:
             break;
         }
+
+        if(mode != rainbowRoll_mode) rainbowRoll_index = 0;
 
         //œ‘ æ
         WS2812_Show();
