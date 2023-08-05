@@ -1,0 +1,5 @@
+".\Objects\STC8G_H_Delay.obj",
+".\Objects\STC8G_H_GPIO.obj",
+".\Objects\STC8G_H_UART.obj" 
+TO ".\Objects\V2.0_STC8G" 
+PRINT(".\Listings\V2.m51") RAMSIZE(256) 
