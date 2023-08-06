@@ -42,7 +42,6 @@ void main(void)
 
 	while(TRUE)
 	{
-		
 		TX1_write2buff('a');
 		delay_ms(250);
 	}
