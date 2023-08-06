@@ -49,7 +49,7 @@
           <OutputName>V2.0_STC8G</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
-          <CreateHexFile>0</CreateHexFile>
+          <CreateHexFile>1</CreateHexFile>
           <DebugInformation>1</DebugInformation>
           <BrowseInformation>1</BrowseInformation>
           <ListingPath>.\Listings\</ListingPath>
@@ -233,7 +233,7 @@
               <RCB>
                 <Type>0</Type>
                 <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
+                <Size>0xffff</Size>
               </RCB>
               <RXB>
                 <Type>0</Type>
@@ -324,7 +324,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath></IncludePath>
+              <IncludePath>.\user;.\STD_Driver</IncludePath>
             </VariousControls>
           </C51>
           <Ax51>
@@ -348,7 +348,7 @@
             <DataOverlaying>1</DataOverlaying>
             <OverlayString></OverlayString>
             <MiscControls></MiscControls>
-            <DisableWarningNumbers></DisableWarningNumbers>
+            <DisableWarningNumbers>16</DisableWarningNumbers>
             <LinkerCmdFile></LinkerCmdFile>
             <Assign></Assign>
             <ReserveString></ReserveString>
@@ -374,8 +374,28 @@
       </TargetOption>
       <Groups>
         <Group>
+          <GroupName>user</GroupName>
+          <Files>
+            <File>
+              <FileName>main.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\main.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>STD_Driver</GroupName>
           <Files>
+            <File>
+              <FileName>STC8G_H_ADC.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\STD_Driver\STC8G_H_ADC.c</FilePath>
+            </File>
+            <File>
+              <FileName>STC8G_H_ADC_Isr.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\STD_Driver\STC8G_H_ADC_Isr.c</FilePath>
+            </File>
             <File>
               <FileName>STC8G_H_Delay.c</FileName>
               <FileType>1</FileType>
@@ -387,14 +407,26 @@
               <FilePath>.\STD_Driver\STC8G_H_GPIO.c</FilePath>
             </File>
             <File>
+              <FileName>STC8G_H_GPIO_Isr.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\STD_Driver\STC8G_H_GPIO_Isr.c</FilePath>
+            </File>
+            <File>
+              <FileName>STC8G_H_NVIC.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\STD_Driver\STC8G_H_NVIC.c</FilePath>
+            </File>
+            <File>
               <FileName>STC8G_H_UART.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\STD_Driver\STC8G_H_UART.c</FilePath>
             </File>
+            <File>
+              <FileName>STC8G_H_UART_Isr.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\STD_Driver\STC8G_H_UART_Isr.c</FilePath>
+            </File>
           </Files>
-        </Group>
-        <Group>
-          <GroupName>user</GroupName>
         </Group>
       </Groups>
     </Target>
